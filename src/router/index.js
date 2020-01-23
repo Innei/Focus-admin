@@ -14,6 +14,7 @@ const routes = [
       {
         path: 'dashboard',
         name: 'dashboard',
+        meta: { title: '仪表盘' },
         component: () => import('@/views/Dashboard')
       }
     ]
@@ -21,7 +22,7 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    meta: { isPublic: true },
+    meta: { isPublic: true, title: '登陆' },
     component: () => import('@/views/Login')
   }
 ]

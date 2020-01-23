@@ -4,7 +4,7 @@
       <Card style="width: 300px" title="欢迎回来~">
         <Form @submit="onSubmit" :form="form">
           <FormItem>
-            <Input
+            <AInput
               size="large"
               placeholder="admin"
               v-decorator="[
@@ -21,10 +21,10 @@
               ]"
             >
               <Icon slot="prefix" type="user" />
-            </Input>
+            </AInput>
           </FormItem>
           <FormItem>
-            <Input
+            <AInput
               size="large"
               placeholder="888888"
               type="password"
@@ -38,7 +38,7 @@
               ]"
             >
               <Icon slot="prefix" type="lock" />
-            </Input>
+            </AInput>
           </FormItem>
           <FormItem>
             <Button
@@ -57,10 +57,10 @@
 </template>
 
 <script>
-import { Card, Form, Input, Icon, Button } from 'ant-design-vue'
+import { Card, Form, Input as AInput, Icon, Button } from 'ant-design-vue'
 export default {
   name: 'Login',
-  components: { Card, Form, FormItem: Form.Item, Input, Icon, Button },
+  components: { Card, Form, FormItem: Form.Item, AInput, Icon, Button },
   data() {
     return {
       logging: false,
@@ -111,5 +111,7 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   box-shadow: 1px 16px 24px -8px #232323d1;
+  overflow: hidden;
+  border-radius: 24px;
 }
 </style>
