@@ -1,0 +1,58 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background-color: #fafafa;
+}
+
+body {
+  min-height: 100vh;
+}
+
+a {
+  color: unset;
+}
+
+a:active {
+  color: unset;
+}
+
+a:hover {
+  color: unset;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+* {
+  scrollbar-width: none;
+}
+
+html {
+  font-size: 16px;
+}
+@media (max-width: 500px) {
+  html {
+    font-size: 0.8rem;
+  }
+}
+
+img[src=''],
+img:not([src]) {
+  opacity: 0;
+}
+button {
+  border: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
