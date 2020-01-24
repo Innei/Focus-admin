@@ -48,24 +48,5 @@ export default {
     left: 0;
     box-sizing: border-box;
   }
-
-  .text {
-    .num {
-      font-size: 3rem;
-      display: inline;
-      padding: 0 0.5em;
-      font-weight: 800;
-    }
-    .num ~ * {
-      display: inline-block;
-    }
-  }
-  .text {
-    line-height: 1.5;
-  }
-  .info {
-    margin-bottom: 0.618rem;
-    font-size: 1.18rem;
-  }
 }
 </style>

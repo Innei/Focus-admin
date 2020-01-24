@@ -11,7 +11,9 @@ const getDefaultState = () => {
     username: '',
     id,
     lastLoginIp: '',
-    lastLoginTime: ''
+    lastLoginTime: '',
+    count: {},
+    raw: null
   }
 }
 
@@ -33,6 +35,12 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_COUNT: (state, count) => {
+    state.count = count
+  },
+  SET_RAW: (state, raw) => {
+    state.raw = raw
   }
 }
 
@@ -66,14 +74,12 @@ const actions = {
         .then(response => {
           const { data } = response
 
-          if (!data) {
-            reject('Verification failed, please Login again.')
-          }
-
-          const { name, avatar, username } = data
+          const { name, avatar, username, count } = data
 
           commit('SET_NAME', { name, username })
           commit('SET_AVATAR', avatar)
+          commit('SET_COUNT', count)
+          commit('SET_RAW', data)
           resolve(data)
         })
         .catch(error => {

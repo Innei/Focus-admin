@@ -16,7 +16,7 @@
     </header>
 
     <main @click="handleClick">
-      <slot name="main" />
+      <slot />
     </main>
 
     <footer></footer>
@@ -53,7 +53,9 @@ export default {
   left: 0;
   overflow: auto;
   margin: 0 3rem 0;
-
+  main {
+    padding: 0 0.8rem;
+  }
   header {
     position: sticky;
     background: rgba($color: #fff, $alpha: 0.3);

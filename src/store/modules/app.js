@@ -5,9 +5,9 @@ const state = {
   sidebar: Cookies.get('sidebarStatus')
     ? !!+Cookies.get('sidebarStatus')
     : true,
-  device: 'desktop',
   menus: setting.menus || [],
-  title: setting.title
+  title: setting.title,
+  viewport: null
 }
 
 const mutations = {
@@ -23,11 +23,11 @@ const mutations = {
     Cookies.set('sidebarStatus', 0)
     state.sidebar = false
   },
-  TOGGLE_DEVICE: (state, device) => {
-    state.device = device
-  },
   SET_MENUS: (state, menus) => {
     state.menus = [...menus]
+  },
+  SET_VIEWPORT: (state, viewport) => {
+    state.viewport = { ...viewport }
   }
 }
 
@@ -38,11 +38,20 @@ const actions = {
   closeSideBar({ commit }) {
     commit('CLOSE_SIDEBAR')
   },
-  toggleDevice({ commit }, device) {
-    commit('TOGGLE_DEVICE', device)
-  },
   initMenus({ commit }, menus) {
     commit('SET_MENUS', menus)
+  },
+  updateViewport({ commit }) {
+    const viewport = {
+      w: document.documentElement.getBoundingClientRect().width,
+      h: window.innerHeight,
+      mobile: window.screen.width <= 568 || window.innerWidth <= 568,
+      pad: window.innerWidth <= 768 && window.innerWidth > 568,
+      hpad: window.innerWidth <= 1024 && window.innerWidth > 768,
+      wider: window.innerWidth > 1024 && window.innerWidth < 1920,
+      widest: window.innerWidth >= 1920
+    }
+    commit('SET_VIEWPORT', viewport)
   }
 }
 
