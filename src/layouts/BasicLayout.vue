@@ -11,12 +11,18 @@
 
 <script>
 import Sidebar from '@/components/Sidebar'
-
+import { buildMenus } from '@/utils'
 export default {
   components: {
     Sidebar
   },
   async created() {
+    if (this.$store.state.app.menus?.length === 0) {
+      await this.$store.dispatch(
+        'app/initMenus',
+        buildMenus(this.$router.options.routes)
+      )
+    }
     await this.$store.dispatch('user/getInfo')
   },
   mounted() {
@@ -71,28 +77,6 @@ export default {
 @media (max-width: $small) {
   .wrap {
     display: flex;
-    .side-bar {
-      // display: none;
-      left: 0;
-      width: 175px;
-      position: fixed;
-      left: 0;
-      z-index: 4;
-      background: linear-gradient(to bottom, #1188e8, #16aae7);
-      transform: translateX(-100%);
-      transition: transform 0.5s, box-shadow 0.5s;
-      height: 500px;
-      border-radius: 0 0 24px 0;
-      display: flex;
-      flex-direction: column;
-      &.active {
-        box-shadow: 1px 1px 43px -9px #000;
-        transform: translateX(0);
-      }
-      .title {
-        padding: 2rem 0;
-      }
-    }
 
     .content {
       width: 100%;

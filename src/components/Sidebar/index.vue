@@ -69,50 +69,63 @@ export default {
     ...mapActions(['']),
     async handleLogout() {}
   },
-
   created() {
+    // bind active menu item to routes
     this.$root.$data.route = ''
+    const path = this.$route.fullPath
+      .split('/')
+      .map(item => '/' + item)
+      .slice(1)
+      .join()
+
+    this.items.forEach((item, index) => {
+      if (item.path === path) {
+        this.activeItems = index
+      }
+    })
   },
   beforeDestroy() {
     this.$root.$data.route = null
     delete this.$root.$data.route
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      // if (!vm.isLogged) {
-      //   return next('/login')
-      // }
+  // beforeRouteEnter(to, from, next) {
+  //   next(vm => {
+  //     // if (!vm.isLogged) {
+  //     //   return next('/login')
+  //     // }
 
-      const path = to.fullPath
-        .replace(vm.$root.$data.route, '')
-        .split('/')
-        .map(item => '/' + item)
-        .slice(1)
+  // const path = to.fullPath
+  //   .replace(vm.$root.$data.route, '')
+  //   .split('/')
+  //   .map(item => '/' + item)
+  //   .slice(1)
+  // console.log(path)
 
-      vm.items.forEach((item, index) => {
-        if (item.path === path[0]) {
-          vm.activeItems = index
-          next()
-        }
-      })
-    })
-  },
-  beforeRouteUpdate(to, from, next) {
-    const path = to.fullPath
-      .replace(this.$root.$data.route, '')
-      .split('/')
-      .map(item => '/' + item)
-      .slice(1)
-    this.items.forEach((item, index) => {
-      if (item.path === path[0]) {
-        this.activeItems = index
-        return next()
-      }
-    })
-  },
+  // vm.items.forEach((item, index) => {
+  //   if (item.path === path[0]) {
+  //     vm.activeItems = index
+  //     next()
+  //   }
+  // })
+  //   })
+  // },
+  // beforeRouteUpdate(to, from, next) {
+  //   const path = to.fullPath
+  //     .replace(this.$root.$data.route, '')
+  //     .split('/')
+  //     .map(item => '/' + item)
+  //     .slice(1)
+
+  //   this.items.forEach((item, index) => {
+  //     if (item.path === path[0]) {
+  //       this.activeItems = index
+  //       return next()
+  //     }
+  //   })
+  // },
   data() {
     return {
-      path: '/',
+      // path: '/',
       activeItems: 0
     }
   }
@@ -224,6 +237,31 @@ $shallowbg: #1a9cf3;
       top: 40px;
       left: -60px;
       transition-delay: 0.3s;
+    }
+  }
+}
+@media (max-width: $small) {
+  .side-bar {
+    // display: none;
+    left: 0;
+    width: 175px;
+    position: fixed;
+    left: 0;
+    z-index: 4;
+    background: linear-gradient(to bottom, #1188e8, #16aae7);
+    transform: translateX(-100%);
+    transition: transform 0.5s, box-shadow 0.5s;
+    height: 500px;
+    border-radius: 0 0 24px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    &.active {
+      box-shadow: 1px 1px 43px -9px #000;
+      transform: translateX(0);
+    }
+    .title {
+      padding: 2rem 0;
     }
   }
 }

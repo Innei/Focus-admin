@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <div class="toggle" @click="toggleSidebar" :class="{ active: sidebar }">
+    <div class="toggle" @click="toggleSideBar" :class="{ active: sidebar }">
       <font-awesome-icon :icon="['fas', 'sliders-h']"></font-awesome-icon>
     </div>
     <header :style="options.noPadding ? 'padding: 0.5rem 0;' : ''">
@@ -29,9 +29,9 @@ export default {
     ...mapGetters(['sidebar'])
   },
   methods: {
-    ...mapActions(['toggleSidebar', 'closeSidebar']),
+    ...mapActions('app', ['toggleSideBar', 'closeSideBar']),
     handleClick() {
-      this.closeSidebar()
+      this.closeSideBar()
     }
   },
   props: {
@@ -120,7 +120,7 @@ footer {
 .toggle {
   display: none;
 }
-@import '@/scss/_viewport.scss';
+
 @media (max-width: $small) {
   .layout {
     margin: 0;

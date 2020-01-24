@@ -1,12 +1,12 @@
 <template>
   <div class="full bg">
     <div class="dialog">
-      <Card style="width: 300px" title="欢迎回来~">
-        <Form @submit="onSubmit" :form="form">
+      <Card class="card" title="欢迎回来~">
+        <Form @submit="onSubmit" :form="form" class="form">
           <FormItem>
             <AInput
               size="large"
-              placeholder="admin"
+              placeholder="请输入账户名"
               v-decorator="[
                 'username',
                 {
@@ -26,7 +26,7 @@
           <FormItem>
             <AInput
               size="large"
-              placeholder="888888"
+              placeholder="请输入密码"
               type="password"
               v-decorator="[
                 'password',
@@ -41,9 +41,17 @@
             </AInput>
           </FormItem>
           <FormItem>
+            <Checkbox
+              :checked="remberPassword"
+              @change="e => (this.remberPassword = e.target.checked)"
+            >
+              记住密码
+            </Checkbox>
+          </FormItem>
+          <FormItem>
             <Button
               :loading="logging"
-              style="width: 100%;margin-top: 24px"
+              style="width: 100%;margin-top: 12px"
               size="large"
               htmlType="submit"
               type="primary"
@@ -57,18 +65,39 @@
 </template>
 
 <script>
-import { Card, Form, Input as AInput, Icon, Button } from 'ant-design-vue'
+import {
+  Card,
+  Form,
+  Input as AInput,
+  Icon,
+  Button,
+  Checkbox
+} from 'ant-design-vue'
 export default {
   name: 'Login',
-  components: { Card, Form, FormItem: Form.Item, AInput, Icon, Button },
+  components: {
+    Card,
+    Form,
+    FormItem: Form.Item,
+    AInput,
+    Icon,
+    Button,
+    Checkbox
+  },
   data() {
     return {
       logging: false,
       error: '',
+      remberPassword: true,
       form: this.$form.createForm(this, { name: 'coordinated' })
     }
   },
-
+  mounted() {
+    this.form.setFieldsValue({
+      username: localStorage.getItem('focus_username') || '',
+      password: localStorage.getItem('focus_password') || ''
+    })
+  },
   methods: {
     onSubmit(e) {
       e.preventDefault()
@@ -78,8 +107,12 @@ export default {
           this.$store
             .dispatch('user/login', values)
             .then(() => {
-              this.$router.push({ path: this.redirect || '/' })
               this.logging = false
+              if (this.remberPassword) {
+                localStorage.setItem('focus_username', values.username)
+                localStorage.setItem('focus_password', values.password)
+              }
+              this.$router.push({ path: this.redirect || '/' })
             })
             .catch(() => {
               this.logging = false
@@ -113,5 +146,17 @@ export default {
   box-shadow: 1px 16px 24px -8px #232323d1;
   overflow: hidden;
   border-radius: 24px;
+}
+.card {
+  width: 300px;
+}
+.form {
+  padding: 0 0.5rem;
+}
+</style>
+
+<style lang="scss">
+.ant-form-item:last-child {
+  margin-bottom: 0;
 }
 </style>
