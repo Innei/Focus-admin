@@ -4,7 +4,7 @@ const getters = {
   title: state => state.app.title,
   device: state => {
     const viewport = state.app.viewport
-    return viewport.wider || viewport.widest ? 'desktop' : 'mobile'
+    return !viewport.mobile ? 'desktop' : 'mobile'
   },
   viewport: state => state.app.viewport,
   token: state => state.user.token,

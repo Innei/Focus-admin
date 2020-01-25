@@ -86,24 +86,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$row-height: 120px;
 .grid {
   display: grid;
   position: relative;
   width: 100%;
   grid-template-columns: repeat(3, auto);
-  grid-template-rows: 120px;
+  grid-template-rows: $row-height;
   grid-gap: 12px 12px;
   &.m {
-    grid-template-rows: repeat(2, auto);
-    grid-template-rows: repeat(2, 160px);
+    grid-template-columns: repeat(1, auto);
+    grid-template-rows: repeat(3, $row-height - 30px);
   }
 }
 
 .bg.svg {
   background-position: center;
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
-  background-size: 100%;
 
   &.welcome {
     background-image: url('~@/assets/svg/1.svg');
