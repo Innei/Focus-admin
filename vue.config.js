@@ -39,17 +39,11 @@ module.exports = {
     }
   },
 
-  configureWebpack: {
-    // provide the app's title in webpack's name field, so that
-    // it can be accessed in index.html to inject the correct title.
-    name: name,
-    resolve: {
-      alias: {
-        '@': resolve('src')
-      }
-    }
+  configureWebpack: config => {
+    config.plugins.push(
+      new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/)
+    )
   },
-
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'scss',

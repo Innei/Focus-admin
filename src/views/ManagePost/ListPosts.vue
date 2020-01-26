@@ -1,47 +1,68 @@
 <template>
   <PageLayout>
-    <!-- <a-table :columns="cols" :dataSource="data" :scroll="{ x: 300 }">
-      <a slot="action" slot-scope="text" href="javascript:;">action</a>
-    </a-table> -->
-    <Table :data="data" :page="page" :cols="cols" />
+    <Table :data="data" :page="page" :cols="cols" :options="{ showID: true }" />
   </PageLayout>
 </template>
 
 <script>
 import PageLayout from '@/layouts/PageLayout.vue'
-import { Table as ATable } from 'ant-design-vue'
 import Table from '@/components/Table'
-
+import moment from 'moment'
+moment.locale('zh-cn')
 import { getPost } from '@/api'
 export default {
   components: {
     PageLayout,
-    ATable,
     Table
   },
   data() {
     return {
       page: {},
       data: [],
+      raw: null,
       cols: [
         {
-          title: '标题',
+          name: '标题',
           prop: 'title',
           width: 100,
-          key: 'title'
+          tag: 'router-link',
+          options: {
+            attrs: {
+              to: {
+                ref: true,
+                prop: '_id',
+                prefix: '/posts/edit/'
+              }
+            },
+            class: ['title']
+          }
         },
         {
-          title: '分类',
+          name: '分类',
           prop: 'categoryId.name',
-          width: 100,
-          key: 'category'
+          width: 100
+        },
+        {
+          name: '日期',
+          prop: 'modified',
+          width: 'auto'
         }
       ]
     }
   },
   async created() {
     const { page, data } = await getPost()
-    ;(this.page = page), (this.data = data)
+    ;(this.page = page), (this.raw = data)
+
+    this.data = data.map(item =>
+      Object.fromEntries(
+        Object.entries(item).map(([key, val]) => {
+          return key === 'created' || key === 'modified'
+            ? [key, moment(new Date(val)).fromNow()]
+            : [key, val]
+        })
+      )
+    )
   }
 }
 </script>

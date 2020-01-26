@@ -44,7 +44,18 @@
             :key="col.prop"
             :title="col.tips ? getObjectPathVal(row, col.prop) : ''"
           >
-            {{ getObjectPathVal(row, col.prop) }}
+            <!-- <span v-if="!col.options">{{
+              getObjectPathVal(row, col.prop)
+            }}</span> -->
+            <VNode
+              :tag="col.tag"
+              :attrs="col.options && col.options.attrs"
+              :style="col.options && col.options.style"
+              :class="col.options && col.options.class"
+              :row="row"
+            >
+              {{ getObjectPathVal(row, col.prop) }}</VNode
+            >
           </div>
           <div class="col" v-if="action" :style="{ width: action.width }">
             <span
@@ -99,6 +110,47 @@
 
 <script>
 import objectPath from 'object-path'
+
+const VNode = {
+  name: 'createTag',
+  props: {
+    tag: String,
+    attrs: Object,
+    row: Object
+  },
+  data() {
+    return {
+      refAttr: null
+    }
+  },
+  created() {
+    const { attrs, cls, row } = this.$props
+
+    if (typeof attrs === 'object') {
+      const newAttr = Object.fromEntries(
+        Object.entries(attrs).map(([key, val]) => {
+          if (val.ref && val.prop) {
+            return [
+              key,
+              val.prefix
+                ? `${val.prefix}${objectPath.get(row, val.prop)}`
+                : objectPath.get(row, val.prop)
+            ]
+          }
+          return [key, val]
+        })
+      )
+      this.refAttr = newAttr
+    }
+  },
+  render(h) {
+    const { tag = 'div', attrs = {}, style } = this.$props
+    const options = {
+      attrs: this.refAttr || attrs
+    }
+    return h(tag, options, this.$slots.default)
+  }
+}
 export default {
   props: {
     data: {
@@ -121,6 +173,9 @@ export default {
         return null
       }
     }
+  },
+  components: {
+    VNode
   },
   mounted() {
     if (this.cols[this.cols.length - 1].actions) {
@@ -168,6 +223,9 @@ export default {
 
 <style lang="scss" scoped>
 // @import url(https://fonts.googleapis.com/css?family=Overpass+Mono&display=swap);
+$basic-color: #1188e8;
+$common-color: #1187e8c2;
+$highlight: #ffcca8;
 $table-col-gap: 20px;
 .table {
   overflow: auto;
@@ -224,12 +282,12 @@ $table-col-gap: 20px;
 
 .action_btn {
   margin-right: 12px;
-  color: #1188e8;
+  color: $basic-color;
   transition: color 0.5s;
   cursor: pointer;
 }
 .action_btn:hover {
-  color: #1187e8c2;
+  color: $common-color;
 }
 
 .tfooter {
@@ -242,16 +300,16 @@ $table-col-gap: 20px;
   align-items: center;
 
   .page_num.active {
-    color: rgb(255, 204, 168);
+    color: $highlight;
   }
   .page_num,
   .btn {
     transition: color 0.5s;
     margin-right: 30px;
     cursor: pointer;
-    color: #1188e8;
+    color: $basic-color;
     &:hover {
-      color: #1187e8c2;
+      color: $common-color;
     }
   }
 
@@ -269,5 +327,13 @@ $table-col-gap: 20px;
   opacity: 0;
   cursor: unset;
   pointer-events: none;
+}
+
+a.title {
+  color: $basic-color;
+  transition: color 0.5s;
+  &:hover {
+    color: $highlight;
+  }
 }
 </style>
