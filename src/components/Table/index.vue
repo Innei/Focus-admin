@@ -8,7 +8,11 @@
             class="col"
             v-for="col in cols"
             :key="col.prop"
-            :style="{ width: col.width, flex: col.auto ? '1' : '' }"
+            :style="{
+              width:
+                typeof col.width === 'number' ? col.width + 'px' : col.width,
+              flex: col.auto ? '1' : ''
+            }"
           >
             {{ col.name }}
           </div>
@@ -30,16 +34,17 @@
           <div
             class="col"
             :style="{
-              width: col.width,
+              width:
+                typeof col.width === 'number' ? col.width + 'px' : col.width,
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               flex: col.auto ? '1' : ''
             }"
             v-for="col in cols"
             :key="col.prop"
-            :title="col.tips ? row[col.prop] : ''"
+            :title="col.tips ? getObjectPathVal(row, col.prop) : ''"
           >
-            {{ row[col.prop] }}
+            {{ getObjectPathVal(row, col.prop) }}
           </div>
           <div class="col" v-if="action" :style="{ width: action.width }">
             <span
@@ -93,6 +98,7 @@
 </template>
 
 <script>
+import objectPath from 'object-path'
 export default {
   props: {
     data: {
@@ -144,6 +150,9 @@ export default {
           this.pages.push(i)
         }
       }
+    },
+    getObjectPathVal(obj, path) {
+      return objectPath.get(obj, path)
     }
   },
   watch: {

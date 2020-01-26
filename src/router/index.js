@@ -20,8 +20,17 @@ const routes = [
       {
         path: 'posts',
         name: 'posts',
-        meta: { title: '博文', icon: ['fas', 'tachometer-alt'] },
-        component: () => import('@/views/Dashboard')
+        meta: { title: '博文', icon: require('../assets/icons/code.svg') },
+        redirect: '/posts/view',
+        component: () => import('@/layouts/BlankLayout.vue'),
+        children: [
+          {
+            path: 'view',
+            name: 'view-posts',
+            meta: { title: '管理文章', icon: ['fas', 'eye'] },
+            component: () => import('@/views/ManagePost/ListPosts.vue')
+          }
+        ]
       }
     ]
   },

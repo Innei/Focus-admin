@@ -1,1 +1,2 @@
-export * from './master.js'
+export * from './master'
+export * from './posts'

@@ -6,7 +6,8 @@
   >
     <div class="item" @click="handleClick">
       <div class="icon">
-        <font-awesome-icon :icon="item.icon" />
+        <font-awesome-icon :icon="item.icon" v-if="isArray(item.icon)" />
+        <object :data="item.icon" type="image/svg+xml" ref="svg" v-else />
       </div>
       <div class="title">{{ item.title }}</div>
       <div v-if="hasChild" style="justify-content: left;">
@@ -44,7 +45,7 @@ export default {
       validator(val) {
         return (
           typeof val.title === 'string' &&
-          val.icon instanceof Array &&
+          (val.icon instanceof Array || typeof val.icon === 'string') &&
           val.icon.length !== 0
         )
       }
@@ -118,6 +119,9 @@ export default {
 
         this.$router.push(path)
       }
+    },
+    isArray(arr) {
+      return Array.isArray(arr)
     }
   },
   mounted() {
@@ -125,6 +129,12 @@ export default {
       this.height =
         [...this.$refs.insider.querySelectorAll('.item')].length * 5 + 'rem'
     } catch (e) {}
+
+    this.$refs.svg?.addEventListener('load', function() {
+      var doc = this.getSVGDocument()
+      const svg = doc.querySelector('svg')
+      svg.setAttribute('fill', '#fff')
+    })
   }
 }
 </script>
@@ -193,6 +203,9 @@ export default {
     .down {
       opacity: 0.8;
     }
+  }
+  .icon {
+    justify-content: center;
   }
 }
 </style>

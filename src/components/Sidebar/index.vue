@@ -72,14 +72,10 @@ export default {
   created() {
     // bind active menu item to routes
     this.$root.$data.route = ''
-    const path = this.$route.fullPath
-      .split('/')
-      .map(item => '/' + item)
-      .slice(1)
-      .join()
+    const path = this.$route.fullPath.split('/')[1]
 
     this.items.forEach((item, index) => {
-      if (item.path === path) {
+      if (item.path.slice(1) === path) {
         this.activeItems = index
       }
     })
