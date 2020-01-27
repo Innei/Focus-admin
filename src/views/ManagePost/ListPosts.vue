@@ -1,5 +1,13 @@
 <template>
   <PageLayout>
+    <template #header>
+      <div class="name">
+        <div class>撰写</div>
+      </div>
+      <div class="icon">
+        <font-awesome-icon :icon="['fas', 'plus']"></font-awesome-icon>
+      </div>
+    </template>
     <Table
       :data="data"
       :page="page"
@@ -29,7 +37,7 @@ import PageLayout from '@/layouts/PageLayout.vue'
 import Table from '@/components/Table'
 import moment from 'moment'
 moment.locale('zh-cn')
-import { getPost } from '@/api'
+import { getPost, Rest } from '@/api'
 export default {
   components: {
     PageLayout,
@@ -71,7 +79,12 @@ export default {
           width: 100
         },
         {
-          name: '日期',
+          name: '创建时间',
+          prop: 'created',
+          width: 150
+        },
+        {
+          name: '修改于',
           prop: 'modified',
           width: 150
         },
@@ -84,21 +97,21 @@ export default {
     }
   },
   async created() {
-    await this.monutData()
+    await this.getData()
   },
   methods: {
     handleEdit(row) {
       console.log(row)
     },
-    handleDelete(row) {},
     async handleTo(page) {
-      console.log(page)
-
-      await this.monutData({ page })
+      await this.getData({ page })
     },
-    async monutData(ops = {}) {
+    async getData(ops = {}) {
       this.loading = true
-      const { page, data } = await getPost({
+      const { page, data } = await Rest(
+        'getRecently',
+        'Post'
+      )({
         page: ops.page || 1,
         size: ops.size || 10
       })
@@ -107,17 +120,30 @@ export default {
       this.data = data.map(item =>
         Object.fromEntries(
           Object.entries(item).map(([key, val]) => {
-            return key === 'created' || key === 'modified'
-              ? [key, moment(new Date(val)).fromNow()]
-              : [key, val]
+            switch (key) {
+              case 'modified': {
+                return [key, moment(val).fromNow()]
+              }
+              case 'created': {
+                return [key, moment(val).format('L LTS')]
+              }
+              default: {
+                return [key, val]
+              }
+            }
           })
         )
       )
       this.loading = false
     },
-    confirm(e) {
-      console.log(e)
-      this.$message.success('Click on Yes')
+    async confirm(e) {
+      const { deletedCount, msg } = await Rest('deleteOne', 'Post')(e._id)
+      if (deletedCount) {
+        this.$message.success(msg)
+        this.getData({ page: this.page.currentPage })
+      } else {
+        this.$message.error(msg)
+      }
     }
   }
 }

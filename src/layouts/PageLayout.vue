@@ -4,14 +4,9 @@
       <font-awesome-icon :icon="['fas', 'sliders-h']"></font-awesome-icon>
     </div>
     <header :style="options.noPadding ? 'padding: 0.5rem 0;' : ''">
-      <span class="title">{{ $route.meta.title.split('--')[0] }}</span>
+      <span class="title">{{ $route.meta.title }}</span>
       <div class="btn" @click="$emit('btn-click')" v-if="$slots.header">
         <slot name="header"></slot>
-        <!-- <div class="name">
-        </div>
-        <div class="add">
-          <font-awesome-icon :icon="['fas', 'plus']"></font-awesome-icon>
-        </div>-->
       </div>
     </header>
 
@@ -76,7 +71,7 @@ export default {
 
     .btn {
       background: #1188e8;
-      padding: 1rem 2rem;
+      padding: 0.75rem 2rem;
       border-radius: 24px;
       color: #fff;
       user-select: none;
@@ -95,6 +90,9 @@ export default {
         z-index: 1;
         padding: 1rem;
         font-size: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       .icon::before {
         content: '';
