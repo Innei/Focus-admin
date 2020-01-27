@@ -1,11 +1,6 @@
 'use strict'
-const path = require('path')
-
-function resolve(dir) {
-  return path.join(__dirname, dir)
-}
-
-const name = 'focus-admin' // page title
+// const path = require('path')
+const webpack = require('webpack')
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
@@ -27,7 +22,6 @@ module.exports = {
 
   outputDir: 'dist',
   assetsDir: 'static',
-  lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
 
   devServer: {
@@ -44,6 +38,7 @@ module.exports = {
       new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/)
     )
   },
+
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'scss',

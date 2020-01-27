@@ -54,7 +54,7 @@ import { mapGetters, mapActions } from 'vuex'
 import item from './item.vue'
 import { logout } from '@/api/master'
 export default {
-  name: 'sidebar',
+  name: 'Sidebar',
   computed: {
     ...mapGetters({
       user: 'profile',

@@ -36,7 +36,7 @@
 
 <script>
 export default {
-  name: 'item',
+  name: 'Item',
   props: {
     active: Boolean,
     item: {

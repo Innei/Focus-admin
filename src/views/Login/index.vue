@@ -53,7 +53,7 @@
               :loading="logging"
               style="width: 100%;margin-top: 12px"
               size="large"
-              htmlType="submit"
+              html-type="submit"
               type="primary"
               >登录</Button
             >
