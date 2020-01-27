@@ -10,13 +10,21 @@
     >
       <template #actions="{row}">
         <span class="action_btn primary" @click="handleEdit(row)">编辑</span>
-        <span class="action_btn danger" @click="handleDelete(row)">删除</span>
+        <a-popconfirm
+          title="你确定要删除此文章吗?"
+          @confirm="confirm(row)"
+          okText="是"
+          cancelText="再想想啦"
+        >
+          <span class="action_btn danger">删除</span>
+        </a-popconfirm>
       </template>
     </Table>
   </PageLayout>
 </template>
 
 <script>
+import { Popconfirm as APopconfirm } from 'ant-design-vue'
 import PageLayout from '@/layouts/PageLayout.vue'
 import Table from '@/components/Table'
 import moment from 'moment'
@@ -25,7 +33,8 @@ import { getPost } from '@/api'
 export default {
   components: {
     PageLayout,
-    Table
+    Table,
+    APopconfirm
   },
   data() {
     return {
@@ -105,6 +114,10 @@ export default {
         )
       )
       this.loading = false
+    },
+    confirm(e) {
+      console.log(e)
+      this.$message.success('Click on Yes')
     }
   }
 }
