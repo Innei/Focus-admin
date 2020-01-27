@@ -1,12 +1,11 @@
 <template>
   <PageLayout>
     <template #header>
-      <div class="name">
-        <div class>撰写</div>
-      </div>
-      <div class="icon">
-        <font-awesome-icon :icon="['fas', 'plus']"></font-awesome-icon>
-      </div>
+      <Button
+        name="撰写"
+        :icon="['fas', 'plus']"
+        @click.native="$router.push({ name: 'edit-posts' })"
+      />
     </template>
     <Table
       :data="data"
@@ -21,8 +20,8 @@
         <a-popconfirm
           title="你确定要删除此文章吗?"
           @confirm="confirm(row)"
-          okText="是"
-          cancelText="再想想啦"
+          ok-text="是"
+          cancel-text="再想想啦"
         >
           <span class="action_btn danger">删除</span>
         </a-popconfirm>
@@ -35,14 +34,16 @@
 import { Popconfirm as APopconfirm } from 'ant-design-vue'
 import PageLayout from '@/layouts/PageLayout.vue'
 import Table from '@/components/Table'
+import Button from '@/components/Button/LayoutButton'
 import moment from 'moment'
 moment.locale('zh-cn')
-import { getPost, Rest } from '@/api'
+import { Rest } from '@/api'
 export default {
   components: {
     PageLayout,
     Table,
-    APopconfirm
+    APopconfirm,
+    Button
   },
   data() {
     return {
@@ -67,7 +68,7 @@ export default {
               to: {
                 ref: true,
                 prop: '_id',
-                prefix: '/posts/edit/'
+                prefix: '/posts/edit?id='
               }
             },
             class: ['title']

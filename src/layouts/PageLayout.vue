@@ -4,10 +4,10 @@
       <font-awesome-icon :icon="['fas', 'sliders-h']"></font-awesome-icon>
     </div>
     <header :style="options.noPadding ? 'padding: 0.5rem 0;' : ''">
-      <span class="title">{{ $route.meta.title }}</span>
-      <div class="btn" @click="$emit('btn-click')" v-if="$slots.header">
-        <slot name="header"></slot>
-      </div>
+      <span class="title">{{
+        options.title ? options.title : $route.meta.title
+      }}</span>
+      <slot name="header"></slot>
     </header>
 
     <main @click="handleClick">
@@ -67,50 +67,6 @@ export default {
       user-select: none;
       align-items: center;
       display: flex;
-    }
-
-    .btn {
-      background: #1188e8;
-      padding: 0.75rem 2rem;
-      border-radius: 24px;
-      color: #fff;
-      user-select: none;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      position: relative;
-      .name {
-        margin-right: 2rem;
-      }
-      .icon {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        z-index: 1;
-        padding: 1rem;
-        font-size: 16px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .icon::before {
-        content: '';
-        position: absolute;
-        top: 1px;
-        bottom: 1px;
-        right: 0;
-        left: 0;
-        // margin: 0.3rem;
-        border-radius: 50%;
-        background: #379af1;
-        z-index: -1;
-        height: 36px;
-        width: 36px;
-        display: flex;
-        margin: auto;
-      }
-      // line-height: 1.5;
     }
   }
 }
