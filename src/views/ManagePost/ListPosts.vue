@@ -1,6 +1,18 @@
 <template>
   <PageLayout>
-    <Table :data="data" :page="page" :cols="cols" :options="options" />
+    <Table
+      :data="data"
+      :page="page"
+      :cols="cols"
+      :options="options"
+      :loading="loading"
+      @to="handleTo"
+    >
+      <template #actions="{row}">
+        <span class="action_btn primary" @click="handleEdit(row)">编辑</span>
+        <span class="action_btn danger" @click="handleDelete(row)">删除</span>
+      </template>
+    </Table>
   </PageLayout>
 </template>
 
@@ -52,24 +64,69 @@ export default {
         {
           name: '日期',
           prop: 'modified',
-          width: 'auto'
+          width: 150
+        },
+        {
+          name: '操作',
+          actions: true
         }
-      ]
+      ],
+      loading: true
     }
   },
   async created() {
-    const { page, data } = await getPost()
-    ;(this.page = page), (this.raw = data)
+    await this.monutData()
+  },
+  methods: {
+    handleEdit(row) {
+      console.log(row)
+    },
+    handleDelete(row) {},
+    async handleTo(page) {
+      console.log(page)
 
-    this.data = data.map(item =>
-      Object.fromEntries(
-        Object.entries(item).map(([key, val]) => {
-          return key === 'created' || key === 'modified'
-            ? [key, moment(new Date(val)).fromNow()]
-            : [key, val]
-        })
+      await this.monutData({ page })
+    },
+    async monutData(ops = {}) {
+      this.loading = true
+      const { page, data } = await getPost({
+        page: ops.page || 1,
+        size: ops.size || 10
+      })
+      ;(this.page = page), (this.raw = data)
+
+      this.data = data.map(item =>
+        Object.fromEntries(
+          Object.entries(item).map(([key, val]) => {
+            return key === 'created' || key === 'modified'
+              ? [key, moment(new Date(val)).fromNow()]
+              : [key, val]
+          })
+        )
       )
-    )
+      this.loading = false
+    }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+$basic-color: #1188e8;
+$common-color: #1187e8c2;
+$highlight: #ffcca8;
+.action_btn {
+  margin-right: 1ch;
+  cursor: pointer;
+  user-select: none;
+  &.primary {
+    color: $basic-color;
+    transition: color 0.25s;
+    &:hover {
+      color: $highlight;
+    }
+  }
+  &.danger {
+    color: #e74c3c;
+  }
+}
+</style>

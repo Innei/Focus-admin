@@ -1,6 +1,6 @@
 <template>
-  <div class="table" v-if="data">
-    <ps :style="options.style">
+  <div class="table" v-if="data" :class="{ loading: loading }">
+    <ps :style="options.style" ref="ps">
       <div class="theader">
         <div class="status_bar">
           <div class="col" style="width: 18px" v-if="options.showID">#</div>
@@ -23,6 +23,23 @@
       </div>
 
       <div class="tbody">
+        <div class="spin" v-show="loading">
+          <svg
+            data-v-3363c4d1=""
+            viewBox="0 0 1024 1024"
+            data-icon="loading"
+            width="2em"
+            height="2em"
+            fill="currentColor"
+            aria-hidden="true"
+            focusable="false"
+            class="anticon-spin"
+          >
+            <path
+              d="M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 0 0-94.3-139.9 437.71 437.71 0 0 0-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z"
+            ></path>
+          </svg>
+        </div>
         <div class="row" v-for="(row, i) in data" :key="row._id">
           <div
             class="col"
@@ -44,9 +61,6 @@
             :key="col.prop"
             :title="col.tips ? getObjectPathVal(row, col.prop) : ''"
           >
-            <!-- <span v-if="!col.options">{{
-              getObjectPathVal(row, col.prop)
-            }}</span> -->
             <VNode
               :tag="col.tag"
               :attrs="col.options && col.options.attrs"
@@ -58,14 +72,7 @@
             >
           </div>
           <div class="col" v-if="action" :style="{ width: action.width }">
-            <span
-              v-for="action in action.actions"
-              :key="action.name"
-              class="action_btn"
-              @click="$emit(action.alias, i, action.name, row._id)"
-              :style="{ color: action.color }"
-              >{{ action.name }}</span
-            >
+            <slot name="actions" :row="row" />
           </div>
         </div>
       </div>
@@ -110,7 +117,6 @@
 
 <script>
 import objectPath from 'object-path'
-
 const VNode = {
   name: 'createTag',
   props: {
@@ -172,6 +178,10 @@ export default {
       default() {
         return null
       }
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
@@ -216,23 +226,28 @@ export default {
       handler() {
         this.pageNav()
       }
+    },
+    loading() {
+      // console.log(this.$refs.ps)
+
+      this.$refs?.ps.$el.scrollTo({ left: 0, top: 0, behavior: 'smooth' })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-// @import url(https://fonts.googleapis.com/css?family=Overpass+Mono&display=swap);
 $basic-color: #1188e8;
 $common-color: #1187e8c2;
 $highlight: #ffcca8;
 $table-col-gap: 20px;
 .table {
   overflow: auto;
-}
-* {
-  // font-family: 'Overpass Mono', monospace;
-  user-select: none;
+
+  &.loading .tbody .row {
+    opacity: 0.7;
+    user-select: none;
+  }
 }
 .table::-webkit-scrollbar {
   height: 5px;
@@ -247,6 +262,7 @@ $table-col-gap: 20px;
     backdrop-filter: blur(5px);
     position: sticky;
     top: 0;
+    z-index: 2;
   }
   .status_bar {
     white-space: nowrap;
@@ -263,6 +279,16 @@ $table-col-gap: 20px;
     display: inline-block;
     height: calc(100vh - 17rem);
     min-width: 100%;
+    position: relative;
+
+    .spin {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: $basic-color;
+    }
+
     .row {
       white-space: nowrap;
       // display: inline-block;
@@ -298,7 +324,7 @@ $table-col-gap: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-
+  user-select: none;
   .page_num.active {
     color: $highlight;
   }

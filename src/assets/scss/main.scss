@@ -47,6 +47,11 @@ button {
   border: 0;
 }
 
+.ps__rail-x,
+.ps__rail-y {
+  z-index: 12;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s;
