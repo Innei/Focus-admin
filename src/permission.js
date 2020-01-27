@@ -24,11 +24,18 @@ router.beforeEach(async (to, from, next) => {
   if (hasToken) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
+      // check token valid and not outdate
+      const { logged } = await checkLogged()
+      if (!logged) {
+        await store.dispatch('user/resetToken')
+        NProgress.done()
+        return
+      }
       next({ path: '/' })
       NProgress.done()
     } else {
       // check token valid and not outdate
-      const logged = await checkLogged()
+      const { logged } = await checkLogged()
       if (!logged) {
         await store.dispatch('user/resetToken')
         Message.error('身份信息已过期')

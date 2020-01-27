@@ -1,6 +1,6 @@
 <template>
   <div class="table" v-if="data">
-    <ps style="width: 100%;height: calc(100vh - 13rem)">
+    <ps :style="options.style">
       <div class="theader">
         <div class="status_bar">
           <div class="col" style="width: 18px" v-if="options.showID">#</div>

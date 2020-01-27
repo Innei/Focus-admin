@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { message as Message } from 'ant-design-vue'
+import router from '@/router'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
@@ -41,6 +42,10 @@ service.interceptors.response.use(
       console.log(error)
     }
     Message.error(error.response.data.msg || error.message)
+
+    // if (error.response.status === 401) {
+    //   router.push('/login')
+    // }
     return Promise.reject(error)
   }
 )

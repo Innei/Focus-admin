@@ -1,6 +1,6 @@
 <template>
   <PageLayout>
-    <Table :data="data" :page="page" :cols="cols" :options="{ showID: true }" />
+    <Table :data="data" :page="page" :cols="cols" :options="options" />
   </PageLayout>
 </template>
 
@@ -20,6 +20,13 @@ export default {
       page: {},
       data: [],
       raw: null,
+      options: {
+        showID: true,
+        style: {
+          width: '100%',
+          height: 'calc(100vh - 13rem)'
+        }
+      },
       cols: [
         {
           name: '标题',
