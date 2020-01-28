@@ -45,6 +45,9 @@ module.exports = {
       patterns: [
         require('path').resolve(__dirname, 'src/assets/scss/_var.scss')
       ]
+    },
+    webpackBundleAnalyzer: {
+      openAnalyzer: false
     }
   }
 }

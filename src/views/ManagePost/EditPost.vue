@@ -49,16 +49,19 @@ export default {
       post: {
         slug: '',
         title: ''
-      }
+      },
+      id: this.$route.query.id
     }
   },
   async created() {
-    const isEdit = this.$route.params.id || this.$route.query.id || false
+    const isEdit = this.id || false
     if (isEdit) {
       const { data } = await Rest('getOne', 'Post')(isEdit)
       const title = `编辑 ${data.title}`
       this.options.title = title
       document.title = `${title} - ${defaultSettings.title}`
+    } else {
+      document.title = this.options.title
     }
   },
   components: {

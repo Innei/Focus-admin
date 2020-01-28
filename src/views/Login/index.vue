@@ -20,7 +20,7 @@
                 }
               ]"
             >
-              <Icon slot="prefix" type="user" />
+              <icon slot="prefix" :icon="['fas', 'user']" />
             </AInput>
           </FormItem>
           <FormItem>
@@ -37,7 +37,7 @@
                 }
               ]"
             >
-              <Icon slot="prefix" type="lock" />
+              <icon slot="prefix" :icon="['fas', 'key']" />
             </AInput>
           </FormItem>
           <FormItem>
@@ -65,14 +65,7 @@
 </template>
 
 <script>
-import {
-  Card,
-  Form,
-  Input as AInput,
-  Icon,
-  Button,
-  Checkbox
-} from 'ant-design-vue'
+import { Card, Form, Input as AInput, Button, Checkbox } from 'ant-design-vue'
 export default {
   name: 'Login',
   components: {
@@ -80,7 +73,6 @@ export default {
     Form,
     FormItem: Form.Item,
     AInput,
-    Icon,
     Button,
     Checkbox
   },

@@ -6,13 +6,13 @@
   >
     <div class="item" @click="handleClick">
       <div class="icon">
-        <font-awesome-icon :icon="item.icon" v-if="isArray(item.icon)" />
+        <icon :icon="item.icon" v-if="isArray(item.icon)" />
         <object :data="item.icon" type="image/svg+xml" ref="svg" v-else />
       </div>
       <div class="title">{{ item.title }}</div>
       <div v-if="hasChild" style="justify-content: left;">
         <div class="down">
-          <font-awesome-icon :icon="['fas', 'chevron-down']" />
+          <icon :icon="['fas', 'chevron-down']" />
         </div>
       </div>
     </div>

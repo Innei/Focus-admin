@@ -4,7 +4,7 @@
       <div class>{{ name }}</div>
     </div>
     <div class="icon" :style="{ background: backcolor }">
-      <font-awesome-icon :icon="icon"></font-awesome-icon>
+      <icon :icon="icon"></icon>
     </div>
   </div>
 </template>

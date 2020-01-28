@@ -30,18 +30,14 @@
               target="_blank"
               style="color: currentColor"
             >
-              <font-awesome-icon :icon="['fab', 'github']"></font-awesome-icon>
+              <icon :icon="['fab', 'github']"></icon>
             </a>
           </div>
           <div class="i" @click="$router.push('/')">
-            <font-awesome-icon
-              :icon="['fas', 'globe-asia']"
-            ></font-awesome-icon>
+            <icon :icon="['fas', 'globe-asia']"></icon>
           </div>
           <div class="i" @click="handleLogout">
-            <font-awesome-icon
-              :icon="['fas', 'sign-out-alt']"
-            ></font-awesome-icon>
+            <icon :icon="['fas', 'sign-out-alt']"></icon>
           </div>
         </div>
       </div>

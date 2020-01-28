@@ -14,7 +14,7 @@
       </div>
       <div>
         <div class="down" :class="{ active: active }">
-          <font-awesome-icon :icon="['fas', 'chevron-down']" />
+          <icon :icon="['fas', 'chevron-down']" />
         </div>
       </div>
     </div>
@@ -38,22 +38,13 @@
             </div>
             <div class="icon">
               <div class>
-                <font-awesome-icon
-                  :icon="['far', 'clock']"
-                  v-if="type === 'moment'"
-                ></font-awesome-icon>
-                <font-awesome-icon
-                  :icon="['far', 'sun']"
-                  v-if="type === 'hitokoto'"
-                ></font-awesome-icon>
-                <font-awesome-icon
+                <icon :icon="['far', 'clock']" v-if="type === 'moment'"></icon>
+                <icon :icon="['far', 'sun']" v-if="type === 'hitokoto'"></icon>
+                <icon
                   :icon="['far', 'lightbulb']"
                   v-if="type === 'idea'"
-                ></font-awesome-icon>
-                <font-awesome-icon
-                  :icon="['far', 'image']"
-                  v-if="type === 'picture'"
-                ></font-awesome-icon>
+                ></icon>
+                <icon :icon="['far', 'image']" v-if="type === 'picture'"></icon>
               </div>
             </div>
           </div>

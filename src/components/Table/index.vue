@@ -86,9 +86,7 @@
             :class="{ hide: page.currentPage === 1 }"
             @click="$emit('to', page.currentPage - 1)"
           >
-            <font-awesome-icon
-              :icon="['fas', 'chevron-left']"
-            ></font-awesome-icon>
+            <icon :icon="['fas', 'chevron-left']"></icon>
           </div>
           <div class="page">
             <span
@@ -105,9 +103,7 @@
             :class="{ hide: page.currentPage + 1 > page.totalPage }"
             @click="$emit('to', page.currentPage + 1)"
           >
-            <font-awesome-icon
-              :icon="['fas', 'chevron-right']"
-            ></font-awesome-icon>
+            <icon :icon="['fas', 'chevron-right']"></icon>
           </div>
         </div>
       </div>

@@ -8,4 +8,4 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(fas, far, fab)
 
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('icon', FontAwesomeIcon)

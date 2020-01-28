@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <div class="toggle" @click="toggleSideBar" :class="{ active: sidebar }">
-      <font-awesome-icon :icon="['fas', 'sliders-h']"></font-awesome-icon>
+      <icon :icon="['fas', 'sliders-h']"></icon>
     </div>
     <header :style="options.noPadding ? 'padding: 0.5rem 0;' : ''">
       <span class="title">{{
