@@ -199,9 +199,6 @@ export default {
     handleSubmit() {
       console.log('submit')
     },
-    handleSetVal() {
-      console.log(...arguments)
-    },
     handleScroll(e) {
       const viewport = {
         top: e.lineAtHeight(e.display.scroller.getBoundingClientRect().top),
@@ -216,8 +213,7 @@ export default {
       const previewHeight = preview.scrollHeight
       preview.scrollTo({
         left: 0,
-        top: curPos * previewHeight * 1.2,
-        behavior: 'smooth'
+        top: curPos * previewHeight * 1.2
       })
     }
   },

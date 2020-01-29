@@ -81,7 +81,7 @@ export default {
       logging: false,
       error: '',
       remberPassword: true,
-      form: this.$form.createForm(this, { name: 'coordinated' })
+      form: this.$form.createForm(this, { name: 'login' })
     }
   },
   mounted() {
@@ -135,7 +135,7 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: 1px 16px 24px -8px #232323d1;
+  box-shadow: 6px 9px 24px -8px #3a3737d1;
   overflow: hidden;
   border-radius: 24px;
 }
@@ -150,5 +150,9 @@ export default {
 <style lang="scss">
 .ant-form-item:last-child {
   margin-bottom: 0;
+}
+.ant-form-item:nth-last-child(2),
+.ant-form-item:nth-last-child(3) {
+  margin-bottom: 2px;
 }
 </style>
