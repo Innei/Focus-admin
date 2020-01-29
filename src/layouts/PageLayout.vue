@@ -7,7 +7,9 @@
       <span class="title">{{
         options.title ? options.title : $route.meta.title
       }}</span>
-      <slot name="header"></slot>
+      <div class="btn-container" v-if="$slots.header">
+        <slot name="header"></slot>
+      </div>
     </header>
 
     <main @click="handleClick">
@@ -66,6 +68,9 @@ export default {
       font-size: 1.5rem;
       user-select: none;
       align-items: center;
+      display: flex;
+    }
+    .btn-container {
       display: flex;
     }
   }
