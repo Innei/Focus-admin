@@ -24,10 +24,12 @@
         size="large"
         v-model="post.title"
       />
-      <a-form-item :label="prefix" :colon="false">
-        <a-input v-model="post.slug" size="small" />
-      </a-form-item>
-      <div class="grid-half">
+      <div class="url">
+        <label>{{ prefix }}</label>
+        <input type="text" class="slug" v-model="post.slug" />
+      </div>
+
+      <div :class="device === 'mobile' ? '' : 'grid-half'">
         <codemirror
           v-model="post.text"
           :options="cmOption"
@@ -39,15 +41,36 @@
           id="markdown-render"
           class="preview"
           v-html="md"
+          v-if="device !== 'mobile'"
           ref="preview"
         ></article>
       </div>
     </a-form>
+
+    <a-drawer
+      title="设定"
+      placement="right"
+      :closable="false"
+      :visible="drawerVisible"
+      @close="() => (drawerVisible = false)"
+    >
+    </a-drawer>
+
+    <template #footer>
+      <button @click="() => (drawerVisible = true)">
+        <icon :icon="['fas', 'sliders-h']" />
+      </button>
+    </template>
   </PageLayout>
 </template>
 
 <script>
-import { Form as AForm, Input as AInput } from 'ant-design-vue'
+import { mapGetters } from 'vuex'
+import {
+  Form as AForm,
+  Input as AInput,
+  Drawer as ADrawer
+} from 'ant-design-vue'
 import { codemirror } from 'vue-codemirror'
 import MD from 'markdown-it'
 import prism from 'markdown-it-prism'
@@ -55,6 +78,9 @@ import prism from 'markdown-it-prism'
 import 'codemirror/mode/gfm/gfm'
 import 'codemirror/addon/display/fullscreen'
 import 'codemirror/theme/3024-day.css'
+import 'codemirror/keymap/sublime'
+import 'codemirror/addon/selection/active-line.js'
+import 'codemirror-typewriter-scrolling/typewriter-scrolling'
 
 import 'codemirror/lib/codemirror.css'
 import '@/assets/scss/shizuku.scss'
@@ -82,6 +108,7 @@ export default {
         text: ``
       },
       id: this.$route.query.id,
+      drawerVisible: false,
       cmOption: {
         tabSize: 2,
         styleActiveLine: true,
@@ -94,6 +121,7 @@ export default {
           code: 'code'
         },
         highlightFormatting: true,
+        keymap: 'sublime',
         extraKeys: {
           'Ctrl-F': () => {
             cm.setOption('fullScreen', !cm.getOption('fullScreen'))
@@ -189,9 +217,8 @@ export default {
   components: {
     PageLayout,
     AForm,
-    AFormItem: AForm.Item,
     AInput,
-    ATextarea: AInput.TextArea,
+    ADrawer,
     Button,
     codemirror
   },
@@ -200,21 +227,23 @@ export default {
       console.log('submit')
     },
     handleScroll(e) {
-      const viewport = {
-        top: e.lineAtHeight(e.display.scroller.getBoundingClientRect().top),
-        bottom: e.lineAtHeight(
-          e.display.scroller.getBoundingClientRect().bottom
-        )
-      }
+      if (this.device !== 'mobile') {
+        const viewport = {
+          top: e.lineAtHeight(e.display.scroller.getBoundingClientRect().top),
+          bottom: e.lineAtHeight(
+            e.display.scroller.getBoundingClientRect().bottom
+          )
+        }
 
-      const lineConut = e.lineCount()
-      const curPos = viewport.top / lineConut
-      const preview = this.$refs.preview
-      const previewHeight = preview.scrollHeight
-      preview.scrollTo({
-        left: 0,
-        top: curPos * previewHeight * 1.2
-      })
+        const lineConut = e.lineCount()
+        const curPos = viewport.top / lineConut
+        const preview = this.$refs.preview
+        const previewHeight = preview.scrollHeight
+        preview.scrollTo({
+          left: 0,
+          top: curPos * previewHeight * 1.2
+        })
+      }
     }
   },
   computed: {
@@ -223,7 +252,8 @@ export default {
     },
     md() {
       return md.render(this.post.text)
-    }
+    },
+    ...mapGetters(['device'])
   },
   mounted() {
     window.cm = this.$refs.code.codemirror
@@ -235,7 +265,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .grid-half {
   display: grid;
   position: relative;
@@ -256,9 +286,32 @@ export default {
   z-index: 9;
   background: #fff;
 }
+
+.slug {
+  border: 0;
+  border-bottom: 1px solid #aaaa;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  display: inline-block;
+  &:hover,
+  &:focus {
+    border-bottom: 1px solid;
+    border-color: #40a9ff;
+  }
+}
+.url {
+  display: flex;
+  margin: 0.8rem 0;
+  line-height: 1.5;
+}
+@media (max-width: $small) {
+  .slug {
+    width: 5rem;
+  }
+}
 </style>
 
-<style>
+<style lang="scss">
 .CodeMirror-fullscreen {
   position: fixed;
   top: 0;
@@ -270,5 +323,14 @@ export default {
 }
 .CodeMirror {
   border-radius: 4px;
+}
+@media (max-width: $small) {
+  .CodeMirror-fullscreen {
+    left: 0;
+    right: 0;
+  }
+  .CodeMirror {
+    height: 70vh;
+  }
 }
 </style>

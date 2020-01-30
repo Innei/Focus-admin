@@ -20,7 +20,13 @@ a:active {
 a:hover {
   color: unset;
 }
-
+button {
+  padding: 0;
+  border: none;
+  font: inherit;
+  outline: none;
+  cursor: pointer;
+}
 // ::-webkit-scrollbar {
 //   width: 0;
 //   height: 0;

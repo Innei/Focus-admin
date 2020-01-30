@@ -42,7 +42,7 @@ export default {
   background-color: $deepBg;
 }
 .wrap.full {
-  margin: 0;
+  transform: scale(1);
   border-radius: 0;
   .title .icon {
     display: none;
@@ -54,13 +54,14 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  margin: 5rem;
+  margin: 0;
+  transform: scale(0.8);
   background: linear-gradient(to bottom, #1188e8, #16aae7);
   border-radius: 24px;
   display: grid;
   grid-template-columns: 15rem auto;
   box-shadow: 5px 24px 133px rgba(0, 0, 0, 0.3);
-  transition: margin 0.5s, border-radius 0.4s 0.1s;
+  transition: transform 0.5s, border-radius 0.4s 0.1s;
   .content {
     background-color: #fff !important;
     border-radius: 0 24px 24px 0;

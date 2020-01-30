@@ -16,7 +16,11 @@
       <slot />
     </main>
 
-    <footer></footer>
+    <footer>
+      <div class="float-btns">
+        <slot name="footer" />
+      </div>
+    </footer>
   </div>
 </template>
 <script>
@@ -116,6 +120,38 @@ footer {
       background: #25b282;
       left: 175px;
     }
+  }
+}
+.float-btns {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  display: flex;
+  flex-direction: column;
+
+  button {
+    z-index: 1;
+    box-sizing: border-box;
+    width: 2.8em;
+    height: 2.8em;
+    color: #795548;
+    margin-top: 0.5em;
+    background: #fff;
+    border-radius: 66%;
+    transition: transform 0.3s;
+    animation: show 0.5s 1.8s both;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 5px 20px rgba(0, 0, 0, 0.2);
+    &:not(:first-child) {
+      margin-top: 0.8rem;
+    }
+  }
+}
+@keyframes show {
+  0% {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
   }
 }
 </style>
