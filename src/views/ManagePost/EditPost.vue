@@ -52,8 +52,47 @@
       placement="right"
       :closable="false"
       :visible="drawerVisible"
+      :width="500"
       @close="() => (drawerVisible = false)"
     >
+      <a-collapse defaultActiveKey="1" :bordered="false">
+        <a-collapse-panel header="文章附加选项" key="1">
+          <div class="switch-item">
+            <div class="switcher">
+              <label>隐藏内容</label><a-switch v-model="post.hide" />
+            </div>
+            <div class="desc">
+              隐藏后, 内容对外人不可见
+            </div>
+          </div>
+        </a-collapse-panel>
+        <a-collapse-panel header="写作功能设定" key="2">
+          <div class="switch-item">
+            <div class="switcher">
+              <label>聚焦模式</label
+              ><a-switch
+                v-model="options.focus"
+                @change="handleSaveState('focus')"
+              />
+            </div>
+            <div class="desc">
+              高亮显示当前行, 暗淡上下文区域
+            </div>
+          </div>
+          <div class="switch-item">
+            <div class="switcher">
+              <label>打字机模式</label
+              ><a-switch
+                v-model="options.typewriter"
+                @change="handleSaveState('typewriter')"
+              />
+            </div>
+            <div class="desc">
+              光标始终位于中心区域
+            </div>
+          </div>
+        </a-collapse-panel>
+      </a-collapse>
     </a-drawer>
 
     <template #footer>
@@ -69,7 +108,9 @@ import { mapGetters } from 'vuex'
 import {
   Form as AForm,
   Input as AInput,
-  Drawer as ADrawer
+  Drawer as ADrawer,
+  Collapse as ACollapse,
+  Switch as ASwitch
 } from 'ant-design-vue'
 import { codemirror } from 'vue-codemirror'
 import MD from 'markdown-it'
@@ -90,6 +131,14 @@ import PageLayout from '@/layouts/PageLayout.vue'
 import defaultSettings from '@/settings'
 import { Rest } from '@/api'
 
+// TODO https://github.com/azu/codemirror-typewriter-scrolling
+// TODO focus mode css style
+// TODO text field trim()
+const PERFER = Object.freeze({
+  focus: 'focus_admin_mode_focus',
+  typewriter: 'focus_admin_mode_typewriter'
+})
+
 const md = new MD({
   html: true,
   xhtmlOut: true
@@ -99,13 +148,16 @@ export default {
   data() {
     return {
       options: {
-        title: '撰写新文章'
+        title: '撰写新文章',
+        focus: !!parseInt(localStorage.getItem(PERFER.focus)) || false,
+        typewriter: !!parseInt(localStorage.getItem(PERFER.typewriter)) || false
       },
       form: this.$form.createForm(this, { name: 'edit-form' }),
       post: {
         slug: '',
         title: '',
-        text: ``
+        text: ``,
+        hide: false
       },
       id: this.$route.query.id,
       drawerVisible: false,
@@ -219,6 +271,9 @@ export default {
     AForm,
     AInput,
     ADrawer,
+    ACollapse,
+    ACollapsePanel: ACollapse.Panel,
+    ASwitch,
     Button,
     codemirror
   },
@@ -244,6 +299,9 @@ export default {
           top: curPos * previewHeight * 1.2
         })
       }
+    },
+    handleSaveState(type) {
+      localStorage.setItem(PERFER[type], this.options[type] ? 1 : 0)
     }
   },
   computed: {
@@ -261,6 +319,8 @@ export default {
       window.cm.setSize()
       window.cm.refresh()
     }, 2000)
+
+    // TODO mode
   }
 }
 </script>
@@ -307,6 +367,21 @@ export default {
 @media (max-width: $small) {
   .slug {
     width: 5rem;
+  }
+}
+.switch-item {
+  display: flex;
+  flex-direction: column;
+  .switcher {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .desc {
+    color: inherit;
+    opacity: 0.8;
+    font-size: 0.9rem;
   }
 }
 </style>

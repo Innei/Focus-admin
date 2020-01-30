@@ -47,7 +47,7 @@ module.exports = {
       ]
     },
     webpackBundleAnalyzer: {
-      openAnalyzer: false
+      openAnalyzer: process.env.NODE_ENV === 'production' ? true : false
     }
   }
 }
