@@ -128,9 +128,9 @@ footer {
   right: 3rem;
   display: flex;
   flex-direction: column;
-
+  z-index: 3;
   button {
-    z-index: 1;
+    z-index: 3;
     box-sizing: border-box;
     width: 2.8em;
     height: 2.8em;

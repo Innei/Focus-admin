@@ -78,4 +78,21 @@ button {
   .cm-comment {
     font-family: 'Fira Code', Monaco, monospace;
   }
+  &.cm-s-3024-day span.cm-string {
+    color: #3498db;
+  }
+  &.cm-s-3024-day span.cm-comment {
+    color: #27ae60;
+  }
+}
+
+.vue-codemirror.focus .CodeMirror {
+  .CodeMirror-code {
+    > :not(.CodeMirror-activeline) {
+      opacity: 0.6;
+    }
+    > div {
+      transition: opacity 0.5s;
+    }
+  }
 }

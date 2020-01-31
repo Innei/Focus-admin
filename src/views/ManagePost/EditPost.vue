@@ -29,19 +29,26 @@
         <input type="text" class="slug" v-model="post.slug" />
       </div>
 
-      <div :class="device === 'mobile' ? '' : 'grid-half'">
+      <div
+        :class="{
+          'grid-half': !(device === 'mobile' || !options.preview),
+          full: !options.preview
+        }"
+      >
         <codemirror
           v-model="post.text"
           :options="cmOption"
           :events="cmEvents"
           @scroll="handleScroll"
+          @focus="handleFocus"
           ref="code"
+          :class="{ focus: options.focus }"
         />
         <article
           id="markdown-render"
           class="preview"
           v-html="md"
-          v-if="device !== 'mobile'"
+          v-if="device !== 'mobile' && options.preview"
           ref="preview"
         ></article>
       </div>
@@ -65,8 +72,28 @@
               隐藏后, 内容对外人不可见
             </div>
           </div>
+          <div class="switch-item">
+            <div class="switcher">
+              <label>文章头图</label>
+            </div>
+            <div class="desc">
+              添加一张文章头图
+            </div>
+          </div>
         </a-collapse-panel>
         <a-collapse-panel header="写作功能设定" key="2">
+          <div class="switch-item">
+            <div class="switcher">
+              <label>显示预览</label
+              ><a-switch
+                v-model="options.preview"
+                @change="handleSaveState('preview')"
+              />
+            </div>
+            <div class="desc">
+              启动右侧 Markdown 预览
+            </div>
+          </div>
           <div class="switch-item">
             <div class="switcher">
               <label>聚焦模式</label
@@ -79,6 +106,7 @@
               高亮显示当前行, 暗淡上下文区域
             </div>
           </div>
+
           <div class="switch-item">
             <div class="switcher">
               <label>打字机模式</label
@@ -110,7 +138,8 @@ import {
   Input as AInput,
   Drawer as ADrawer,
   Collapse as ACollapse,
-  Switch as ASwitch
+  Switch as ASwitch,
+  Upload as AUpload
 } from 'ant-design-vue'
 import { codemirror } from 'vue-codemirror'
 import MD from 'markdown-it'
@@ -134,9 +163,11 @@ import { Rest } from '@/api'
 // TODO https://github.com/azu/codemirror-typewriter-scrolling
 // TODO focus mode css style
 // TODO text field trim()
+const prefix = 'focus_admin_'
 const PERFER = Object.freeze({
   focus: 'focus_admin_mode_focus',
-  typewriter: 'focus_admin_mode_typewriter'
+  typewriter: 'focus_admin_mode_typewriter',
+  preview: prefix + 'preview'
 })
 
 const md = new MD({
@@ -150,7 +181,9 @@ export default {
       options: {
         title: '撰写新文章',
         focus: !!parseInt(localStorage.getItem(PERFER.focus)) || false,
-        typewriter: !!parseInt(localStorage.getItem(PERFER.typewriter)) || false
+        typewriter:
+          !!parseInt(localStorage.getItem(PERFER.typewriter)) || false,
+        preview: !!parseInt(localStorage.getItem(PERFER.preview)) || false
       },
       form: this.$form.createForm(this, { name: 'edit-form' }),
       post: {
@@ -158,6 +191,9 @@ export default {
         title: '',
         text: ``,
         hide: false
+      },
+      postExtra: {
+        img: ''
       },
       id: this.$route.query.id,
       drawerVisible: false,
@@ -172,12 +208,14 @@ export default {
         tokenTypeOverrides: {
           code: 'code'
         },
+        typewriterScrolling:
+          !!parseInt(localStorage.getItem(PERFER.typewriter)) || false,
         highlightFormatting: true,
         keymap: 'sublime',
         extraKeys: {
           'Ctrl-F': () => {
             cm.setOption('fullScreen', !cm.getOption('fullScreen'))
-            this.$refs.preview.classList.toggle('fullscreen')
+            this.$refs?.preview?.classList.toggle('fullscreen')
           },
           // strong
           'Cmd-B'(cm) {
@@ -282,7 +320,7 @@ export default {
       console.log('submit')
     },
     handleScroll(e) {
-      if (this.device !== 'mobile') {
+      if (this.device !== 'mobile' && this.options.preview) {
         const viewport = {
           top: e.lineAtHeight(e.display.scroller.getBoundingClientRect().top),
           bottom: e.lineAtHeight(
@@ -302,6 +340,11 @@ export default {
     },
     handleSaveState(type) {
       localStorage.setItem(PERFER[type], this.options[type] ? 1 : 0)
+    },
+    handleFocus() {
+      if (this.options.typewriter) {
+        window.cm.execCommand('scrollSelectionToCenter')
+      }
     }
   },
   computed: {
@@ -320,7 +363,18 @@ export default {
       window.cm.refresh()
     }, 2000)
 
-    // TODO mode
+    if (this.options.typewriter && this.post.text.split('\n').length < 20) {
+      this.post.text = new Array(20).join('\n')
+    }
+  },
+  watch: {
+    'options.typewriter'(val) {
+      if (val) {
+        this.cmOption.typewriterScrolling = true
+      } else {
+        this.cmOption.typewriterScrolling = false
+      }
+    }
   }
 }
 </script>
@@ -364,6 +418,7 @@ export default {
   margin: 0.8rem 0;
   line-height: 1.5;
 }
+
 @media (max-width: $small) {
   .slug {
     width: 5rem;
@@ -407,5 +462,8 @@ export default {
   .CodeMirror {
     height: 70vh;
   }
+}
+.full .CodeMirror-fullscreen {
+  right: 0;
 }
 </style>
