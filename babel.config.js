@@ -11,5 +11,10 @@ module.exports = {
         style: 'css'
       }
     ]
-  ]
+  ],
+  env: {
+    production: {
+      presets: ['minify']
+    }
+  }
 }

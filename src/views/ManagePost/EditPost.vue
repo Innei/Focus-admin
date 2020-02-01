@@ -10,7 +10,7 @@
       <Button
         @click.native="handleSubmit"
         :icon="['far', 'save']"
-        name="发布"
+        :name="$route.query.id ? '更新' : '发布'"
       />
     </template>
 
@@ -70,6 +70,15 @@
             </div>
             <div class="desc">
               隐藏后, 内容对外人不可见
+            </div>
+          </div>
+          <div class="switch-item">
+            <div class="switcher">
+              <label>概要</label>
+            </div>
+            <a-input v-model="post.summary" />
+            <div class="desc">
+              设置一个概要, 在文章列表页优先显示
             </div>
           </div>
           <div class="switch-item">
@@ -160,8 +169,6 @@ import PageLayout from '@/layouts/PageLayout.vue'
 import defaultSettings from '@/settings'
 import { Rest } from '@/api'
 
-// TODO https://github.com/azu/codemirror-typewriter-scrolling
-// TODO focus mode css style
 // TODO text field trim()
 const prefix = 'focus_admin_'
 const PERFER = Object.freeze({
@@ -175,6 +182,26 @@ const md = new MD({
   xhtmlOut: true
 }).use(prism)
 
+const fieldComplete = post => {
+  return {
+    ...{ slug: '', title: '', text: ``, hide: false, summary: '' },
+    ...post
+  }
+}
+// only for modify article
+const fieldExtract = post => {
+  // extract categoryId
+  const { title, slug, text, status, summary, options } = post
+  return {
+    title,
+    slug,
+    text,
+    status,
+    summary,
+    categoryId: post.categoryId._id,
+    options
+  }
+}
 export default {
   data() {
     return {
@@ -190,10 +217,11 @@ export default {
         slug: '',
         title: '',
         text: ``,
-        hide: false
+        hide: false,
+        summary: ''
       },
       postExtra: {
-        img: ''
+        img: null
       },
       id: this.$route.query.id,
       drawerVisible: false,
@@ -316,9 +344,6 @@ export default {
     codemirror
   },
   methods: {
-    handleSubmit() {
-      console.log('submit')
-    },
     handleScroll(e) {
       if (this.device !== 'mobile' && this.options.preview) {
         const viewport = {
@@ -336,6 +361,27 @@ export default {
           left: 0,
           top: curPos * previewHeight * 1.2
         })
+      }
+    },
+    async handleSubmit() {
+      const id = this.$route.query.id
+      const raw = {
+        ...this.post,
+        ...{ slug: this.post.slug ? this.post.slug : this.post.title },
+        options: { ...this.postExtra }
+      }
+
+      const data = id ? fieldExtract(raw) : raw
+
+      const res = id
+        ? await Rest('modifyOne', 'Post')(id, data)
+        : await Rest('postNew', 'Post')(data)
+
+      if (id) {
+        this.$message.success(res.msg)
+      } else {
+        this.$message.success('创建成功')
+        // TODO query add id and fetch data
       }
     },
     handleSaveState(type) {
@@ -427,6 +473,13 @@ export default {
 .switch-item {
   display: flex;
   flex-direction: column;
+
+  &:not(:last-child) {
+    margin-bottom: 1.2rem;
+  }
+  > * {
+    margin-bottom: 0.4rem;
+  }
   .switcher {
     display: flex;
     justify-content: space-between;
