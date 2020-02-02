@@ -169,6 +169,7 @@ import PageLayout from '@/layouts/PageLayout.vue'
 import defaultSettings from '@/settings'
 import { Rest } from '@/api'
 
+import keymap from '@/core/keymap'
 // TODO text field trim()
 const prefix = 'focus_admin_'
 const PERFER = Object.freeze({
@@ -195,7 +196,7 @@ const fieldExtract = post => {
   return {
     title,
     slug,
-    text,
+    text: text.trim(),
     status,
     summary,
     categoryId: post.categoryId._id,
@@ -240,81 +241,7 @@ export default {
           !!parseInt(localStorage.getItem(PERFER.typewriter)) || false,
         highlightFormatting: true,
         keymap: 'sublime',
-        extraKeys: {
-          'Ctrl-F': () => {
-            cm.setOption('fullScreen', !cm.getOption('fullScreen'))
-            this.$refs?.preview?.classList.toggle('fullscreen')
-          },
-          // strong
-          'Cmd-B'(cm) {
-            const doc = cm.getDoc()
-            const selection = doc.getSelection()
-            if (selection) {
-              doc.replaceSelection(`**${selection}**`)
-            } else {
-              const cursor = doc.getCursor()
-              doc.replaceRange('****', cursor)
-              cursor.ch += 2
-              doc.setCursor(cursor)
-            }
-          },
-          // italic
-          'Cmd-I'(cm) {
-            const doc = cm.getDoc()
-            const selection = doc.getSelection()
-            if (selection) {
-              doc.replaceSelection(`*${selection}*`)
-            } else {
-              const cursor = doc.getCursor()
-              doc.replaceRange('**', cursor)
-              cursor.ch += 1
-              doc.setCursor(cursor)
-            }
-          },
-          // underline
-          'Cmd-U'(cm) {
-            const doc = cm.getDoc()
-            const selection = doc.getSelection()
-            if (selection) {
-              doc.replaceSelection(`<u>${selection}</u>`)
-            } else {
-              const cursor = doc.getCursor()
-              doc.replaceRange('<u></u>', cursor)
-              cursor.ch += 3
-              doc.setCursor(cursor)
-            }
-          },
-          // code
-          'Alt-`'(cm) {
-            const doc = cm.getDoc()
-            const cursor = doc.getCursor()
-            doc.replaceRange('``', cursor)
-            cursor.ch += 1
-            doc.setCursor(cursor)
-          },
-          // ref link
-          'Cmd-K'(cm) {
-            const doc = cm.getDoc()
-            const cursor = doc.getCursor()
-            doc.replaceRange('[]()', cursor)
-            cursor.ch += 1
-            doc.setCursor(cursor)
-          },
-          // code block
-          'Alt-`'(cm) {
-            const doc = cm.getDoc()
-            const cursor = doc.getCursor()
-            doc.replaceRange('```\n\n```', cursor)
-            cursor.ch += 3
-            doc.setCursor(cursor)
-          },
-          // tab to space
-          Tab(cm) {
-            const doc = cm.getDoc()
-            const cursor = doc.getCursor()
-            doc.replaceRange('  ', cursor)
-          }
-        }
+        extraKeys: keymap
       },
       cmEvents: ['scroll', 'viewportChange']
     }
@@ -381,7 +308,7 @@ export default {
         this.$message.success(res.msg)
       } else {
         this.$message.success('创建成功')
-        // TODO query add id and fetch data
+        this.$router.push({ name: 'view-posts' })
       }
     },
     handleSaveState(type) {
