@@ -25,7 +25,7 @@
         v-model="post.title"
       />
       <div class="url">
-        <label>{{ prefix }}</label>
+        <label>{{ prefix + categorySlug }}</label>
         <input type="text" class="slug" v-model="post.slug" />
       </div>
 
@@ -66,12 +66,30 @@
         <a-collapse-panel header="文章附加选项" key="1">
           <div class="switch-item">
             <div class="switcher">
+              <label>分类</label>
+              <a-select
+                style="width: 120px"
+                v-model="post.categoryId"
+                @change="handleSelectCategory"
+              >
+                <a-select-option
+                  :value="category._id"
+                  v-for="category in this.categories"
+                  :key="category._id"
+                  >{{ category.name }}</a-select-option
+                >
+              </a-select>
+            </div>
+          </div>
+          <div class="switch-item">
+            <div class="switcher">
               <label>隐藏内容</label><a-switch v-model="post.hide" />
             </div>
             <div class="desc">
               隐藏后, 内容对外人不可见
             </div>
           </div>
+
           <div class="switch-item">
             <div class="switcher">
               <label>概要</label>
@@ -141,14 +159,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import {
   Form as AForm,
   Input as AInput,
   Drawer as ADrawer,
   Collapse as ACollapse,
   Switch as ASwitch,
-  Upload as AUpload
+  Upload as AUpload,
+  Select as ASelect
 } from 'ant-design-vue'
 import { codemirror } from 'vue-codemirror'
 import MD from 'markdown-it'
@@ -170,7 +189,7 @@ import defaultSettings from '@/settings'
 import { Rest } from '@/api'
 
 import keymap from '@/core/keymap'
-// TODO text field trim()
+
 const prefix = 'focus_admin_'
 const PERFER = Object.freeze({
   focus: 'focus_admin_mode_focus',
@@ -185,7 +204,14 @@ const md = new MD({
 
 const fieldComplete = post => {
   return {
-    ...{ slug: '', title: '', text: ``, hide: false, summary: '' },
+    ...{
+      slug: '',
+      title: '',
+      text: ``,
+      hide: false,
+      summary: '',
+      categoryId: null
+    },
     ...post
   }
 }
@@ -199,7 +225,7 @@ const fieldExtract = post => {
     text: text.trim(),
     status,
     summary,
-    categoryId: post.categoryId._id,
+    categoryId: post.categoryId?._id || null,
     options
   }
 }
@@ -219,8 +245,10 @@ export default {
         title: '',
         text: ``,
         hide: false,
-        summary: ''
+        summary: '',
+        categoryId: ''
       },
+      categories: [],
       postExtra: {
         img: null
       },
@@ -258,6 +286,9 @@ export default {
     } else {
       document.title = this.options.title
     }
+
+    this.categories = await this.getCategory()
+    this.post.categoryId = this.post.categoryId || this.categories[0]._id
   },
   components: {
     PageLayout,
@@ -267,10 +298,13 @@ export default {
     ACollapse,
     ACollapsePanel: ACollapse.Panel,
     ASwitch,
+    ASelect,
+    ASelectOption: ASelect.Option,
     Button,
     codemirror
   },
   methods: {
+    ...mapActions('category', ['getCategory', 'fetchCategory']),
     handleScroll(e) {
       if (this.device !== 'mobile' && this.options.preview) {
         const viewport = {
@@ -294,7 +328,7 @@ export default {
       const id = this.$route.query.id
       const raw = {
         ...this.post,
-        ...{ slug: this.post.slug ? this.post.slug : this.post.title },
+        ...{ slug: this.post.slug },
         options: { ...this.postExtra }
       }
 
@@ -318,11 +352,20 @@ export default {
       if (this.options.typewriter) {
         window.cm.execCommand('scrollSelectionToCenter')
       }
+    },
+    handleSelectCategory(e) {
+      this.post.categoryId = e
     }
   },
   computed: {
     prefix() {
       return `${location.host}/posts/`
+    },
+    categorySlug() {
+      return `${this.post.categoryId?.slug ||
+        this.categories.find(category => category._id === this.post.categoryId)
+          ?.slug ||
+        null}/`
     },
     md() {
       return md.render(this.post.text)

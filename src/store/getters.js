@@ -15,6 +15,7 @@ const getters = {
     const user = Object.assign({}, state.user)
     delete user.token
     return user
-  }
+  },
+  category: state => state.category.category
 }
 export default getters

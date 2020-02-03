@@ -1,6 +1,6 @@
 import inflection from 'inflection'
 import $axios from '@/utils/request'
-const apis = ['Post', 'Note', 'Moment']
+const apis = ['Post', 'Note', 'Moment', 'Category']
 
 const checkRest = rest => {
   if (!apis.includes(rest)) {

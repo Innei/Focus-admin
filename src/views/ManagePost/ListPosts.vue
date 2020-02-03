@@ -102,7 +102,12 @@ export default {
   },
   methods: {
     handleEdit(row) {
-      console.log(row)
+      this.$router.push({
+        name: 'edit-posts',
+        query: {
+          id: row._id
+        }
+      })
     },
     async handleTo(page) {
       await this.getData({ page })
