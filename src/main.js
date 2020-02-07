@@ -12,6 +12,8 @@ Vue.component('ps', PerfectScrollbar)
 
 import './plugins/font-awesome'
 import Message from 'ant-design-vue/lib/message'
+
+import './socket'
 Vue.config.productionTip = false
 Vue.prototype.$message = Message
 const app = new Vue({

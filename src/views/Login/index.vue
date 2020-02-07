@@ -54,6 +54,7 @@
               style="width: 100%;margin-top: 12px"
               size="large"
               html-type="submit"
+              @click="onSubmit"
               type="primary"
               >登录</Button
             >
