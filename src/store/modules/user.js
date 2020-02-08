@@ -1,7 +1,7 @@
 import { login, logout, getInfo } from '@/api'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
-const { token = '', id = '' } = getToken() ? JSON.parse(getToken()) : {}
+const { token = '', id = '' } = getToken()
 
 const getDefaultState = () => {
   return {

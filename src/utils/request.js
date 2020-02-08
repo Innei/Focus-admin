@@ -13,7 +13,7 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     if (store.getters.token) {
-      config.headers['Authorization'] = JSON.parse(getToken() || {}).token
+      config.headers['Authorization'] = getToken().token
     }
     return config
   },
