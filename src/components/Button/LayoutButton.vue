@@ -57,19 +57,18 @@ export default {
     filter: brightness(1.1);
     border-radius: 50%;
   }
-  // .icon::before {
-  //   content: '';
-  //   position: absolute;
-  //   top: 1px;
-  //   bottom: 1px;
-  //   right: 0;
-  //   left: 0;
-  //   border-radius: 50%;
-  //   z-index: -1;
-  //   height: 36px;
-  //   width: 36px;
-  //   display: flex;
-  //   margin: auto;
-  // }
+}
+@media (max-width: map-get($map: $viewport, $key: 'mobile')) {
+  .btn {
+    padding: 0;
+    margin-left: 2.4rem;
+    .name {
+      display: none;
+    }
+    .icon {
+      height: 3rem;
+      transform: scale(0.8);
+    }
+  }
 }
 </style>
