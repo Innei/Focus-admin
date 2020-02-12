@@ -24,3 +24,6 @@ export const throttle = (fn, gapTime) => {
     }
   }
 }
+
+export const avatarFromMail = mail =>
+  `https://api.paugram.com/gravatar/?email=${mail}&replace=retro`

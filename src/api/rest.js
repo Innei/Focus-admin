@@ -1,6 +1,6 @@
 import inflection from 'inflection'
 import $axios from '@/utils/request'
-const apis = ['Post', 'Note', 'Moment', 'Category']
+const apis = ['Post', 'Note', 'Moment', 'Category', 'Comment']
 
 const checkRest = rest => {
   if (!apis.includes(rest)) {
@@ -39,6 +39,24 @@ export default (api, rest) => {
     async deleteOne(id) {
       const data = await $axios.delete(`${pluralize}/${id}`)
       return data
+    },
+    get gets() {
+      return this.getRecently
+    },
+    get get() {
+      return this.getOne
+    },
+    get post() {
+      return this.postNew
+    },
+    get update() {
+      return this.modifyOne
+    },
+    get del() {
+      return this.deleteOne
+    },
+    get delete() {
+      return this.deleteOne
     }
   }
 

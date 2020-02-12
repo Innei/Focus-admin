@@ -16,7 +16,8 @@ function buildSubMenus(route) {
 const buildMenus = routes =>
   routes
     .find(item => item.name === 'home' && item.path === '/')
-    .children.map(item => {
+    .children.filter(item => item.path !== '*')
+    .map(item => {
       return model(item)
     })
 

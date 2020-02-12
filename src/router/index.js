@@ -19,7 +19,7 @@ const routes = [
       },
       {
         path: 'posts',
-        name: 'posts',
+        name: 'post',
         meta: { title: '博文', icon: require('../assets/icons/code.svg') },
         redirect: '/posts/view',
         component: () => import('@/layouts/BlankLayout.vue'),
@@ -38,6 +38,16 @@ const routes = [
             component: () => import('@/views/ManagePost/EditPost.vue')
           }
         ]
+      },
+      {
+        path: 'comments',
+        name: 'comment',
+        meta: { title: '评论', icon: ['fas', 'comment'] },
+        component: () => import('@/views/ManageComment')
+      },
+      {
+        path: '*',
+        redirect: '/dashboard'
       }
     ]
   },
