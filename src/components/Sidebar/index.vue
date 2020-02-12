@@ -129,14 +129,18 @@ export default {
 
 $deepBg: #1681e1;
 $shallowbg: #1a9cf3;
+$left-margin: 1.5rem;
 
 .side-bar {
-  $left-margin: 1.5rem;
   color: #fff;
-  display: grid;
-  grid-template-rows: 6rem auto 6rem;
+  // display: grid;
+  // grid-template-rows: 6rem auto 6rem;
+  height: 100vh;
+  position: relative;
   // overflow: hidden;
   > .title {
+    height: 6rem;
+    display: block;
     display: flex;
     font-family: 'Josefin Sans', sans-serif;
     justify-content: center;
@@ -148,6 +152,7 @@ $shallowbg: #1a9cf3;
 
   .items {
     margin-left: $left-margin;
+    height: calc(100vh - 12rem);
     box-sizing: border-box;
     overflow: scroll;
     // height: calc(100vh - 10rem - 12.875rem);
@@ -156,12 +161,18 @@ $shallowbg: #1a9cf3;
   }
 
   .user {
+    position: absolute;
+    bottom: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
     margin: $left-margin;
     background: #13afea;
     border-radius: 12px;
     position: relative;
     .block {
       max-height: 100%;
+      width: 100%;
       display: grid;
       grid-template-columns: 50px auto 20px;
       margin: 0.5rem;

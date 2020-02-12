@@ -183,7 +183,7 @@ export default {
   line-height: 1.5;
   user-select: none;
   opacity: 0.8;
-
+  cursor: default;
   > * {
     display: flex;
     align-items: center;
