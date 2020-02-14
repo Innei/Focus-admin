@@ -6,7 +6,11 @@
 
       <a-list-item slot="renderItem" slot-scope="item" key="item.title">
         <div class="info" slot="extra">
+          <div class="post-title">
+            所属文章: <a :href="getPostUrl(item.pid)">{{ item.pid.title }}</a>
+          </div>
           <div class="created">创建时间: {{ parseDate(item.created) }}</div>
+          <div class="ip">归属地: {{ item.ip }}</div>
         </div>
         <a-list-item-meta :description="item.mail">
           <a slot="title" :href="item.url">{{ item.author }}</a>
@@ -22,8 +26,7 @@
 import PageLayout from '@/layouts/PageLayout.vue'
 import { List, Avatar } from 'ant-design-vue'
 import Rest from '@/api/rest'
-import { avatarFromMail } from '@/utils'
-import moment from 'moment'
+import { avatarFromMail, time } from '@/utils'
 export default {
   components: {
     PageLayout,
@@ -46,8 +49,11 @@ export default {
       return avatarFromMail(mail)
     },
     parseDate(date) {
-      const d = moment(date).format('MMMM Do YYYY, h:mm:ss a')
-      return d
+      return time.parseDate(date, 'LLLL')
+    },
+    getPostUrl(post) {
+      return `${process.env.VUE_APP_WEB_URL}/posts/${post.categoryId?.slug ||
+        null}/${post.slug}`
     }
   }
 }
@@ -55,7 +61,7 @@ export default {
 
 <style lang="scss">
 .ant-list-item-meta-title {
-  margin-bottom: 4px;
+  margin-bottom: 4px !important;
 }
 .ant-list-item-meta {
   display: flex;

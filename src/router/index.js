@@ -44,11 +44,11 @@ const routes = [
         name: 'comment',
         meta: { title: '评论', icon: ['fas', 'comment'] },
         component: () => import('@/views/ManageComment')
-      },
-      {
-        path: '*',
-        redirect: '/dashboard'
       }
+      // {
+      //   path: '*',
+      //   redirect: '/dashboard'
+      // }
     ]
   },
   {

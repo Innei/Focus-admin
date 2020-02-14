@@ -35,9 +35,9 @@ import { Popconfirm as APopconfirm } from 'ant-design-vue'
 import PageLayout from '@/layouts/PageLayout.vue'
 import Table from '@/components/Table'
 import Button from '@/components/Button/LayoutButton'
-import moment from 'moment'
-moment.locale('zh-cn')
+
 import { Rest } from '@/api'
+import { time } from '../../utils'
 export default {
   components: {
     PageLayout,
@@ -128,10 +128,10 @@ export default {
           Object.entries(item).map(([key, val]) => {
             switch (key) {
               case 'modified': {
-                return [key, moment(val).fromNow()]
+                return [key, time.relativeTimeFromNow(val)]
               }
               case 'created': {
-                return [key, moment(val).format('L LTS')]
+                return [key, time.parseDate(val, 'H:mm:ss A')]
               }
               default: {
                 return [key, val]

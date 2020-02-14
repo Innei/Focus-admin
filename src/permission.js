@@ -1,19 +1,18 @@
 import router from './router'
 import store from './store'
 import { message as Message } from 'ant-design-vue'
-import NProgress from 'nprogress' // progress bar
-import 'nprogress/nprogress.css' // progress bar style
+import QProgress from 'qier-progress' // progress bar
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 import { checkLogged } from '@/api'
 
-NProgress.configure({ showSpinner: false }) // NProgress Configuration
-
+const Progress = new QProgress()
+Progress.done = Progress.finish
 const whiteList = ['/login'] // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
   // start progress bar
-  NProgress.start()
+  Progress.start()
 
   // set page title
   document.title = getPageTitle(to.meta.title)
@@ -28,11 +27,12 @@ router.beforeEach(async (to, from, next) => {
       const { logged } = await checkLogged()
       if (!logged) {
         await store.dispatch('user/resetToken')
-        NProgress.done()
+        next('/login')
+        Progress.done()
         return
       }
       next({ path: '/' })
-      NProgress.done()
+      Progress.done()
     } else {
       // check token valid and not outdate
       const { logged } = await checkLogged()
@@ -40,7 +40,7 @@ router.beforeEach(async (to, from, next) => {
         await store.dispatch('user/resetToken')
         Message.error('身份信息已过期')
         next(`/login?redirect=${to.path}`)
-        NProgress.done()
+        Progress.done()
         return
       }
       const hasGetUserInfo = store.getters.name
@@ -57,7 +57,7 @@ router.beforeEach(async (to, from, next) => {
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
           next(`/login?redirect=${to.path}`)
-          NProgress.done()
+          Progress.done()
         }
       }
     }
@@ -70,12 +70,12 @@ router.beforeEach(async (to, from, next) => {
     } else {
       // other pages that do not have permission to access are redirected to the login page.
       next(`/login?redirect=${to.path}`)
-      NProgress.done()
+      Progress.done()
     }
   }
 })
 
 router.afterEach(() => {
   // finish progress bar
-  NProgress.done()
+  Progress.done()
 })

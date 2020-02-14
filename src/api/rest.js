@@ -7,6 +7,38 @@ const checkRest = rest => {
     throw new Error("Api isn't exist.")
   }
 }
+const noop = () => {}
+const methods = ['get', 'post', 'delete', 'patch', 'put']
+const reflectors = [
+  'toString',
+  'valueOf',
+  'inspect',
+  'constructor',
+  Symbol.toPrimitive,
+  Symbol.for('util.inspect.custom')
+]
+export const rest = () => {
+  const route = ['']
+  const handler = {
+    get(_, name) {
+      if (reflectors.includes(name)) return () => route.join('/')
+      if (methods.includes(name)) {
+        return options =>
+          $axios.request(name, route.join('/'), {
+            route: route.join('/'),
+            ...options
+          })
+      }
+      route.push(name)
+      return new Proxy(noop, handler)
+    },
+    apply(_, __, args) {
+      route.push(...args.filter(x => x != null)) // eslint-disable-line eqeqeq
+      return new Proxy(noop, handler)
+    }
+  }
+  return new Proxy(noop, handler)
+}
 
 export default (api, rest) => {
   // rest = Post | Note | etc.

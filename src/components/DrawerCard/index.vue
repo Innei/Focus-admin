@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+import { time } from '@/utils'
 export default {
   props: {
     time: {
@@ -96,18 +96,15 @@ export default {
   },
   methods: {
     parseDate(date) {
-      return moment(date).format('MMM DD YYYY')
+      return time.parseDate(date, 'MMM DD YYYY')
     },
     parseTime(time) {
-      return moment(time).format('HH:mm')
+      return time.parseDate(time, 'HH:mm')
     },
     handleImgOnload() {
-      console.log('img onload')
       try {
         this.updateWrapHeight()
-      } catch (e) {
-        e
-      }
+      } catch {}
     },
     updateWrapHeight() {
       this.overflowHeight = this.$refs.body.offsetHeight + 100
