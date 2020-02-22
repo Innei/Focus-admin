@@ -17,14 +17,14 @@ const reflectors = [
   Symbol.toPrimitive,
   Symbol.for('util.inspect.custom')
 ]
-export const rest = () => {
+export const pre = () => {
   const route = ['']
   const handler = {
     get(_, name) {
       if (reflectors.includes(name)) return () => route.join('/')
       if (methods.includes(name)) {
         return options =>
-          $axios.request(name, route.join('/'), {
+          $axios[name](route.join('/'), {
             route: route.join('/'),
             ...options
           })
@@ -39,7 +39,7 @@ export const rest = () => {
   }
   return new Proxy(noop, handler)
 }
-
+export const rest = pre()
 export default (api, rest) => {
   // rest = Post | Note | etc.
   checkRest(rest)

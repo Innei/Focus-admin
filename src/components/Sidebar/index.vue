@@ -33,8 +33,10 @@
               <icon :icon="['fab', 'github']"></icon>
             </a>
           </div>
-          <div class="i" @click="$router.push('/')">
-            <icon :icon="['fas', 'globe-asia']"></icon>
+          <div class="i">
+            <a :href="homePage" style="color: currentColor">
+              <icon :icon="['fas', 'globe-asia']"></icon>
+            </a>
           </div>
           <div class="i" @click="handleLogout">
             <icon :icon="['fas', 'sign-out-alt']"></icon>
@@ -49,6 +51,8 @@
 import { mapGetters, mapActions } from 'vuex'
 import item from './item.vue'
 import { logout } from '@/api/master'
+import { rest } from '../../api'
+
 export default {
   name: 'Sidebar',
   computed: {
@@ -56,14 +60,22 @@ export default {
       user: 'profile',
       items: 'menus'
     }),
-    ...mapGetters(['sidebar', 'title'])
+    ...mapGetters(['sidebar', 'title']),
+    homePage() {
+      return process.env.VUE_APP_WEB_URL
+    }
   },
   components: {
     item
   },
   methods: {
     ...mapActions(['']),
-    async handleLogout() {}
+    async handleLogout() {
+      const { ok } = await rest.master.logout.get()
+      if (ok) {
+        this.$router.push('/login')
+      }
+    }
   },
   created() {
     // bind active menu item to routes
