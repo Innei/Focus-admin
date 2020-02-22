@@ -62,7 +62,7 @@
       :width="500"
       @close="() => (drawerVisible = false)"
     >
-      <a-collapse defaultActiveKey="1" :bordered="false">
+      <a-collapse default-active-key="1" :bordered="false">
         <a-collapse-panel header="文章附加选项" key="1">
           <div class="switch-item">
             <div class="switcher">
@@ -83,11 +83,10 @@
           </div>
           <div class="switch-item">
             <div class="switcher">
-              <label>隐藏内容</label><a-switch v-model="post.hide" />
+              <label>隐藏内容</label>
+              <a-switch v-model="post.hide" />
             </div>
-            <div class="desc">
-              隐藏后, 内容对外人不可见
-            </div>
+            <div class="desc">隐藏后, 内容对外人不可见</div>
           </div>
 
           <div class="switch-item">
@@ -95,56 +94,46 @@
               <label>概要</label>
             </div>
             <a-input v-model="post.summary" />
-            <div class="desc">
-              设置一个概要, 在文章列表页优先显示
-            </div>
+            <div class="desc">设置一个概要, 在文章列表页优先显示</div>
           </div>
           <div class="switch-item">
             <div class="switcher">
               <label>文章头图</label>
             </div>
-            <div class="desc">
-              添加一张文章头图
-            </div>
+            <div class="desc">添加一张文章头图</div>
           </div>
         </a-collapse-panel>
         <a-collapse-panel header="写作功能设定" key="2">
           <div class="switch-item">
             <div class="switcher">
-              <label>显示预览</label
-              ><a-switch
+              <label>显示预览</label>
+              <a-switch
                 v-model="options.preview"
                 @change="handleSaveState('preview')"
               />
             </div>
-            <div class="desc">
-              启动右侧 Markdown 预览
-            </div>
+            <div class="desc">启动右侧 Markdown 预览</div>
           </div>
           <div class="switch-item">
             <div class="switcher">
-              <label>聚焦模式</label
-              ><a-switch
+              <label>聚焦模式</label>
+              <a-switch
                 v-model="options.focus"
                 @change="handleSaveState('focus')"
               />
             </div>
-            <div class="desc">
-              高亮显示当前行, 暗淡上下文区域
-            </div>
+            <div class="desc">高亮显示当前行, 暗淡上下文区域</div>
           </div>
 
           <div class="switch-item">
             <div class="switcher">
-              <label>打字机模式</label
-              ><a-switch
+              <label>打字机模式</label>
+              <a-switch
                 v-model="options.typewriter"
                 @change="handleSaveState('typewriter')"
               />
             </div>
-            <div class="desc">
-              光标始终位于中心区域
-            </div>
+            <div class="desc">光标始终位于中心区域</div>
           </div>
         </a-collapse-panel>
       </a-collapse>

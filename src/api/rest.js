@@ -33,7 +33,7 @@ export const rest = () => {
       return new Proxy(noop, handler)
     },
     apply(_, __, args) {
-      route.push(...args.filter(x => x != null)) // eslint-disable-line eqeqeq
+      route.push(...args.filter(x => x !== null))
       return new Proxy(noop, handler)
     }
   }

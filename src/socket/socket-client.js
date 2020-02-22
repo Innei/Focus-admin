@@ -1,13 +1,13 @@
 // // import { getToken } from '@/utils/auth'
-import { message } from 'ant-design-vue'
+import { notification } from 'ant-design-vue'
 
 const Message = {
-  info: message.info,
-  error: message.error,
-  success: message.success,
-  warn: message.warn,
-  warning: message.warning,
-  loading: message.loading
+  info: notification.info,
+  error: notification.error,
+  success: notification.success,
+  warn: notification.warn,
+  warning: notification.warning,
+  loading: notification.loading
 }
 class SocketClient {
   static retryDelay(times) {
@@ -167,7 +167,10 @@ class SocketClient {
     // console.log(data);
     try {
       const { type, message } = JSON.parse(data)
-      Message[type](message)
+      Message[type]({
+        message: 'Notice',
+        description: message
+      })
     } catch (err) {
       console.log(err)
     }

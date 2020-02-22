@@ -1,5 +1,5 @@
 <template>
-  <div class="layout">
+  <div class="layout" ref="root">
     <div class="toggle" @click="toggleSideBar" :class="{ active: sidebar }">
       <icon :icon="['fas', 'sliders-h']"></icon>
     </div>
@@ -40,6 +40,17 @@ export default {
       type: Object,
       default() {
         return {}
+      }
+    }
+  },
+  provide() {
+    return {
+      toTop: () => {
+        this.$refs.root.scrollTo({
+          left: 0,
+          top: 0,
+          behavior: 'smooth'
+        })
       }
     }
   }
