@@ -1,8 +1,16 @@
 <template>
   <PageLayout>
-    <template #header> </template>
+    <template #header>
+      <SButton :icon="['fas', 'check']" @click.native="handleSelectAll" />
+
+      <SButton
+        :icon="['fas', 'trash']"
+        backcolor="#e74c3c"
+        @click.native="$router.push({ name: 'edit-posts' })"
+      />
+    </template>
     <Snip :loading="loading">
-      <a-list itemLayout="vertical" size="large" :dataSource="listData">
+      <a-list item-layout="vertical" size="large" :data-source="listData">
         <a-list-item slot="renderItem" slot-scope="item" key="item.title">
           <div class="info" slot="extra">
             <div class="post-title">
@@ -13,7 +21,14 @@
           </div>
           <a-list-item-meta :description="item.mail">
             <a slot="title" :href="item.url">{{ item.author }}</a>
-            <a-avatar slot="avatar" :src="parseAvatar(item.mail)" />
+            <div class="avatar" slot="avatar">
+              <a-checkbox
+                @change="selectCurrent(item._id)"
+                :checked="select.has(item._id)"
+              >
+                <a-avatar :src="parseAvatar(item.mail)" />
+              </a-checkbox>
+            </div>
           </a-list-item-meta>
           {{ item.text }}
         </a-list-item>
@@ -23,7 +38,7 @@
     <div class="center">
       <a-pagination
         simple
-        :defaultCurrent="page.currentPage"
+        :default-current="page.currentPage"
         :total="page.total"
         @change="handleTo"
       />
@@ -34,9 +49,10 @@
 <script>
 import PageLayout from '@/layouts/PageLayout.vue'
 import Snip from '@/components/Spin'
-import { List, Avatar, Pagination } from 'ant-design-vue'
+import { List, Avatar, Pagination, Checkbox } from 'ant-design-vue'
 import Rest from '@/api/rest'
 import { avatarFromMail, time } from '@/utils'
+import SButton from '@/components/Button/SmallButton'
 export default {
   components: {
     PageLayout,
@@ -45,13 +61,16 @@ export default {
     AListItemMeta: List.Item.Meta,
     AAvatar: Avatar,
     APagination: Pagination,
-    Snip
+    ACheckbox: Checkbox,
+    Snip,
+    SButton
   },
   data() {
     return {
       listData: [],
       page: {},
-      loading: true
+      loading: true,
+      select: new Set()
     }
   },
   async created() {
@@ -66,6 +85,14 @@ export default {
 
       this.loading = false
     },
+    selectCurrent(id) {
+      if (this.select.has(id)) {
+        this.select.delete(id)
+      } else {
+        this.select.add(id)
+      }
+      this.select = new Set(this.select)
+    },
     parseAvatar(mail) {
       return avatarFromMail(mail)
     },
@@ -78,6 +105,17 @@ export default {
     },
     async handleTo(page) {
       await this.fetchData(page)
+      this.select = new Set()
+    },
+    handleSelectAll() {
+      if (this.select.size === this.listData.length) {
+        this.select = new Set()
+        return
+      }
+      this.listData.map(({ _id }) => {
+        this.select.add(_id)
+      })
+      this.select = new Set(this.select)
     }
   }
 }
