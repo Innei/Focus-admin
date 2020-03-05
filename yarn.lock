@@ -5607,10 +5607,10 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-markdown-it-prism@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/markdown-it-prism/-/markdown-it-prism-2.0.4.tgz#63c70729ee0fd141be6fbcace8c7c0e1cdee8caf"
-  integrity sha512-f6GA3YHekV9gqJHMBuisI+JL8aaVu88ftjTCbF6S7zWawte5a1S8SJWKkPOCDELYRExyelt5S2L8ppXUy2cDfw==
+markdown-it-prism@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/markdown-it-prism/-/markdown-it-prism-2.0.5.tgz#4bbf46be47878f227678dd83ed97f6c9b07a4094"
+  integrity sha512-u2jErcoLCnENIOUnEbS9w9RWUGiId8fjQovD0Gbo4iT8tZU0/Un4v72E8g8sj/NAzieSCvFVG6KtMwlurSBMnw==
   dependencies:
     prismjs "1.19.0"
 
