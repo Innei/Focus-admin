@@ -21,20 +21,20 @@
           <img :src="user.avatar" />
         </div>
         <div class="username">{{ user.name }}</div>
-        <div class="dot" style="cursor: pointer">.</div>
+        <div class="dot" style="cursor: pointer;">.</div>
 
         <div class="select-menu" ref="user">
           <div class="i">
             <a
               href="https://github.com/innei"
               target="_blank"
-              style="color: currentColor"
+              style="color: currentColor;"
             >
               <icon :icon="['fab', 'github']"></icon>
             </a>
           </div>
           <div class="i">
-            <a :href="homePage" style="color: currentColor">
+            <a :href="homePage" style="color: currentColor;">
               <icon :icon="['fas', 'globe-asia']"></icon>
             </a>
           </div>
@@ -58,15 +58,15 @@ export default {
   computed: {
     ...mapGetters({
       user: 'profile',
-      items: 'menus'
+      items: 'menus',
     }),
     ...mapGetters(['sidebar', 'title']),
     homePage() {
       return process.env.VUE_APP_WEB_URL
-    }
+    },
   },
   components: {
-    item
+    item,
   },
   methods: {
     ...mapActions(['']),
@@ -75,7 +75,7 @@ export default {
       if (ok) {
         this.$router.push('/login')
       }
-    }
+    },
   },
   created() {
     // bind active menu item to routes
@@ -130,9 +130,9 @@ export default {
   data() {
     return {
       // path: '/',
-      activeItems: 0
+      activeItems: 0,
     }
-  }
+  },
 }
 </script>
 

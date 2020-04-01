@@ -14,10 +14,10 @@
                     {
                       required: true,
                       message: '请输入账户名',
-                      whitespace: true
-                    }
-                  ]
-                }
+                      whitespace: true,
+                    },
+                  ],
+                },
               ]"
             >
               <icon slot="prefix" :icon="['fas', 'user']" />
@@ -32,9 +32,9 @@
                 'password',
                 {
                   rules: [
-                    { required: true, message: '请输入密码', whitespace: true }
-                  ]
-                }
+                    { required: true, message: '请输入密码', whitespace: true },
+                  ],
+                },
               ]"
             >
               <icon slot="prefix" :icon="['fas', 'key']" />
@@ -43,7 +43,7 @@
           <FormItem>
             <Checkbox
               :checked="remberPassword"
-              @change="e => (this.remberPassword = e.target.checked)"
+              @change="(e) => (this.remberPassword = e.target.checked)"
             >
               记住密码
             </Checkbox>
@@ -51,7 +51,7 @@
           <FormItem>
             <Button
               :loading="logging"
-              style="width: 100%;margin-top: 12px"
+              style="width: 100%; margin-top: 12px;"
               size="large"
               html-type="submit"
               @click="onSubmit"
@@ -75,20 +75,20 @@ export default {
     FormItem: Form.Item,
     AInput,
     Button,
-    Checkbox
+    Checkbox,
   },
   data() {
     return {
       logging: false,
       error: '',
       remberPassword: true,
-      form: this.$form.createForm(this, { name: 'login' })
+      form: this.$form.createForm(this, { name: 'login' }),
     }
   },
   mounted() {
     this.form.setFieldsValue({
       username: localStorage.getItem('focus_username') || '',
-      password: localStorage.getItem('focus_password') || ''
+      password: localStorage.getItem('focus_password') || '',
     })
   },
   methods: {
@@ -115,8 +115,8 @@ export default {
           return false
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

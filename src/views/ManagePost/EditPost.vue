@@ -19,7 +19,7 @@
         placeholder="想想取个什么题目比较好呢~"
         v-decorator="[
           'title',
-          { rules: [{ required: true, message: '标题是必须的' }] }
+          { rules: [{ required: true, message: '标题是必须的' }] },
         ]"
         size="large"
         v-model="post.title"
@@ -32,7 +32,7 @@
       <div
         :class="{
           'grid-half': !(device === 'mobile' || !options.preview),
-          full: !options.preview
+          full: !options.preview,
         }"
       >
         <codemirror
@@ -68,7 +68,7 @@
             <div class="switcher">
               <label>分类</label>
               <a-select
-                style="width: 120px"
+                style="width: 120px;"
                 v-model="post.categoryId"
                 @change="handleSelectCategory"
               >
@@ -156,7 +156,7 @@ import {
   Collapse as ACollapse,
   Switch as ASwitch,
   Upload as AUpload,
-  Select as ASelect
+  Select as ASelect,
 } from 'ant-design-vue'
 import { codemirror } from 'vue-codemirror'
 import MD from 'markdown-it'
@@ -183,15 +183,15 @@ const prefix = 'focus_admin_'
 const PERFER = Object.freeze({
   focus: 'focus_admin_mode_focus',
   typewriter: 'focus_admin_mode_typewriter',
-  preview: prefix + 'preview'
+  preview: prefix + 'preview',
 })
 
 const md = new MD({
   html: true,
-  xhtmlOut: true
+  xhtmlOut: true,
 }).use(prism)
 
-const fieldComplete = post => {
+const fieldComplete = (post) => {
   return {
     ...{
       slug: '',
@@ -199,13 +199,13 @@ const fieldComplete = post => {
       text: ``,
       hide: false,
       summary: '',
-      categoryId: null
+      categoryId: null,
     },
-    ...post
+    ...post,
   }
 }
 // only for modify article
-const fieldExtract = post => {
+const fieldExtract = (post) => {
   // extract categoryId
   const { title, slug, text, status, summary, options } = post
   return {
@@ -215,7 +215,7 @@ const fieldExtract = post => {
     status,
     summary,
     categoryId: post.categoryId?._id || null,
-    options
+    options,
   }
 }
 export default {
@@ -226,7 +226,7 @@ export default {
         focus: !!parseInt(localStorage.getItem(PERFER.focus)) || false,
         typewriter:
           !!parseInt(localStorage.getItem(PERFER.typewriter)) || false,
-        preview: !!parseInt(localStorage.getItem(PERFER.preview)) || false
+        preview: !!parseInt(localStorage.getItem(PERFER.preview)) || false,
       },
       form: this.$form.createForm(this, { name: 'edit-form' }),
       post: {
@@ -235,11 +235,11 @@ export default {
         text: ``,
         hide: false,
         summary: '',
-        categoryId: ''
+        categoryId: '',
       },
       categories: [],
       postExtra: {
-        img: null
+        img: null,
       },
       id: this.$route.query.id,
       drawerVisible: false,
@@ -252,15 +252,15 @@ export default {
         mode: 'text/x-gfm',
         theme: '3024-day',
         tokenTypeOverrides: {
-          code: 'code'
+          code: 'code',
         },
         typewriterScrolling:
           !!parseInt(localStorage.getItem(PERFER.typewriter)) || false,
         highlightFormatting: true,
         keymap: 'sublime',
-        extraKeys: keymap
+        extraKeys: keymap,
       },
-      cmEvents: ['scroll', 'viewportChange']
+      cmEvents: ['scroll', 'viewportChange'],
     }
   },
   async created() {
@@ -290,7 +290,7 @@ export default {
     ASelect,
     ASelectOption: ASelect.Option,
     Button,
-    codemirror
+    codemirror,
   },
   methods: {
     ...mapActions('category', ['getCategory', 'fetchCategory']),
@@ -300,7 +300,7 @@ export default {
           top: e.lineAtHeight(e.display.scroller.getBoundingClientRect().top),
           bottom: e.lineAtHeight(
             e.display.scroller.getBoundingClientRect().bottom
-          )
+          ),
         }
 
         const lineConut = e.lineCount()
@@ -309,7 +309,7 @@ export default {
         const previewHeight = preview.scrollHeight
         preview.scrollTo({
           left: 0,
-          top: curPos * previewHeight * 1.2
+          top: curPos * previewHeight * 1.2,
         })
       }
     },
@@ -318,7 +318,7 @@ export default {
       const raw = {
         ...this.post,
         ...{ slug: this.post.slug },
-        options: { ...this.postExtra }
+        options: { ...this.postExtra },
       }
 
       const data = id ? fieldExtract(raw) : raw
@@ -344,22 +344,25 @@ export default {
     },
     handleSelectCategory(e) {
       this.post.categoryId = e
-    }
+    },
   },
   computed: {
     prefix() {
       return `${location.host}/posts/`
     },
     categorySlug() {
-      return `${this.post.categoryId?.slug ||
-        this.categories.find(category => category._id === this.post.categoryId)
-          ?.slug ||
-        null}/`
+      return `${
+        this.post.categoryId?.slug ||
+        this.categories.find(
+          (category) => category._id === this.post.categoryId
+        )?.slug ||
+        null
+      }/`
     },
     md() {
       return md.render(this.post.text)
     },
-    ...mapGetters(['device'])
+    ...mapGetters(['device']),
   },
   mounted() {
     window.cm = this.$refs.code.codemirror
@@ -379,8 +382,8 @@ export default {
       } else {
         this.cmOption.typewriterScrolling = false
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

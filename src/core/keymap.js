@@ -71,5 +71,5 @@ export default {
     const doc = cm.getDoc()
     const cursor = doc.getCursor()
     doc.replaceRange('  ', cursor)
-  }
+  },
 }

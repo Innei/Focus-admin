@@ -2,18 +2,18 @@ module.exports = {
   root: true,
 
   env: {
-    node: true
+    node: true,
   },
 
   rules: {
     'no-console': 'off',
     'no-debugger': 'off',
     'vue/no-unused-components': 'off',
-    'vue/no-unused-vars': 'off'
+    'vue/no-unused-vars': 'off',
   },
 
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: 'babel-eslint',
   },
 
   extends: [
@@ -21,7 +21,7 @@ module.exports = {
     '@vue/prettier',
     'prettier',
     'prettier/vue',
-    'plugin:prettier/recommended'
+    'plugin:prettier/recommended',
   ],
 
   plugins: ['prettier'],
@@ -31,6 +31,6 @@ module.exports = {
     '@vue/prettier',
     'prettier',
     'prettier/vue',
-    'plugin:prettier/recommended'
-  ]
+    'plugin:prettier/recommended',
+  ],
 }

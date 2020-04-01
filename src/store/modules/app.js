@@ -7,11 +7,11 @@ const state = {
     : true,
   menus: setting.menus || [],
   title: setting.title,
-  viewport: null
+  viewport: null,
 }
 
 const mutations = {
-  TOGGLE_SIDEBAR: state => {
+  TOGGLE_SIDEBAR: (state) => {
     state.sidebar = !state.sidebar
     if (state.sidebar) {
       Cookies.set('sidebarStatus', 1)
@@ -19,7 +19,7 @@ const mutations = {
       Cookies.set('sidebarStatus', 0)
     }
   },
-  CLOSE_SIDEBAR: state => {
+  CLOSE_SIDEBAR: (state) => {
     Cookies.set('sidebarStatus', 0)
     state.sidebar = false
   },
@@ -28,7 +28,7 @@ const mutations = {
   },
   SET_VIEWPORT: (state, viewport) => {
     state.viewport = { ...viewport }
-  }
+  },
 }
 
 const actions = {
@@ -49,15 +49,15 @@ const actions = {
       pad: window.innerWidth <= 768 && window.innerWidth > 568,
       hpad: window.innerWidth <= 1024 && window.innerWidth > 768,
       wider: window.innerWidth > 1024 && window.innerWidth < 1920,
-      widest: window.innerWidth >= 1920
+      widest: window.innerWidth >= 1920,
     }
     commit('SET_VIEWPORT', viewport)
-  }
+  },
 }
 
 export default {
   namespaced: true,
   state,
   mutations,
-  actions
+  actions,
 }

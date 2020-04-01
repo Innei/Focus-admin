@@ -14,7 +14,7 @@ import Sidebar from '@/components/Sidebar'
 import { buildMenus } from '@/utils'
 export default {
   components: {
-    Sidebar
+    Sidebar,
   },
   async created() {
     if (this.$store.state.app.menus?.length === 0) {
@@ -29,7 +29,7 @@ export default {
     setTimeout(() => {
       this.$refs.wrap.classList.toggle('full')
     }, 1000)
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>

@@ -3,7 +3,7 @@
     <ps :style="options.style" ref="ps">
       <div class="theader">
         <div class="status_bar">
-          <div class="col" style="width: 18px" v-if="options.showID">#</div>
+          <div class="col" style="width: 18px;" v-if="options.showID">#</div>
           <div
             class="col"
             v-for="col in cols"
@@ -11,7 +11,7 @@
             :style="{
               width:
                 typeof col.width === 'number' ? col.width + 'px' : col.width,
-              flex: col.auto ? '1' : ''
+              flex: col.auto ? '1' : '',
             }"
           >
             {{ col.name }}
@@ -55,7 +55,7 @@
                 typeof col.width === 'number' ? col.width + 'px' : col.width,
               overflow: 'hidden',
               textOverflow: 'ellipsis',
-              flex: col.auto ? '1' : ''
+              flex: col.auto ? '1' : '',
             }"
             v-for="col in cols"
             :key="col.prop"
@@ -118,11 +118,11 @@ const VNode = {
   props: {
     tag: String,
     attrs: Object,
-    row: Object
+    row: Object,
   },
   data() {
     return {
-      refAttr: null
+      refAttr: null,
     }
   },
   created() {
@@ -136,7 +136,7 @@ const VNode = {
               key,
               val.prefix
                 ? `${val.prefix}${objectPath.get(row, val.prop)}`
-                : objectPath.get(row, val.prop)
+                : objectPath.get(row, val.prop),
             ]
           }
           return [key, val]
@@ -148,40 +148,40 @@ const VNode = {
   render(h) {
     const { tag = 'div', attrs = {}, style } = this.$props
     const options = {
-      attrs: this.refAttr || attrs
+      attrs: this.refAttr || attrs,
     }
     return h(tag, options, this.$slots.default)
-  }
+  },
 }
 export default {
   props: {
     data: {
       type: Array,
-      required: true
+      required: true,
     },
     cols: {
       type: Array,
-      required: true
+      required: true,
     },
     options: {
       type: Object,
       default() {
         return {}
-      }
+      },
     },
     page: {
       type: Object,
       default() {
         return null
-      }
+      },
     },
     loading: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   components: {
-    VNode
+    VNode,
   },
   mounted() {
     if (this.cols[this.cols.length - 1].actions) {
@@ -196,7 +196,7 @@ export default {
   data() {
     return {
       action: null,
-      pages: []
+      pages: [],
     }
   },
   methods: {
@@ -214,21 +214,21 @@ export default {
     },
     getObjectPathVal(obj, path) {
       return objectPath.get(obj, path)
-    }
+    },
   },
   watch: {
     page: {
       deep: true,
       handler() {
         this.pageNav()
-      }
+      },
     },
     loading() {
       // console.log(this.$refs.ps)
 
       this.$refs?.ps.$el.scrollTo({ left: 0, top: 0, behavior: 'smooth' })
-    }
-  }
+    },
+  },
 }
 </script>
 

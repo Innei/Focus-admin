@@ -7,17 +7,17 @@ import { getToken } from '@/utils/auth'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   // withCredentials: true,
-  timeout: 5000
+  timeout: 5000,
 })
 
 service.interceptors.request.use(
-  config => {
+  (config) => {
     if (store.getters.token) {
       config.headers['Authorization'] = getToken().token
     }
     return config
   },
-  error => {
+  (error) => {
     if (process.env.NODE_ENV === 'development') {
       console.log(error)
     }
@@ -26,7 +26,7 @@ service.interceptors.request.use(
 )
 
 service.interceptors.response.use(
-  response => {
+  (response) => {
     const res = response.data
 
     if (res.ok !== 1) {
@@ -37,7 +37,7 @@ service.interceptors.response.use(
       return res
     }
   },
-  error => {
+  (error) => {
     if (process.env.NODE_ENV === 'development') {
       console.log(error)
     }

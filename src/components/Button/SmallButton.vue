@@ -9,14 +9,14 @@ export default {
   props: {
     icon: {
       type: Array,
-      required: true
+      required: true,
     },
     backcolor: {
       type: String,
-      default: '#1188e8'
+      default: '#1188e8',
     },
-    forecolor: { type: String, default: '#fff' }
-  }
+    forecolor: { type: String, default: '#fff' },
+  },
 }
 </script>
 <style lang="scss" scoped>

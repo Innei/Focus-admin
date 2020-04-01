@@ -14,18 +14,18 @@ export default {
   props: {
     icon: {
       type: Array,
-      required: true
+      required: true,
     },
     name: {
       type: String,
-      required: true
+      required: true,
     },
     backcolor: {
       type: String,
-      default: '#1188e8'
+      default: '#1188e8',
     },
-    forecolor: String
-  }
+    forecolor: String,
+  },
 }
 </script>
 <style lang="scss" scoped>

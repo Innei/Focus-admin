@@ -27,21 +27,21 @@
 import { mapGetters, mapActions } from 'vuex'
 export default {
   computed: {
-    ...mapGetters(['sidebar'])
+    ...mapGetters(['sidebar']),
   },
   methods: {
     ...mapActions('app', ['toggleSideBar', 'closeSideBar']),
     handleClick() {
       this.closeSideBar()
-    }
+    },
   },
   props: {
     options: {
       type: Object,
       default() {
         return {}
-      }
-    }
+      },
+    },
   },
   provide() {
     return {
@@ -49,11 +49,11 @@ export default {
         this.$refs.root.scrollTo({
           left: 0,
           top: 0,
-          behavior: 'smooth'
+          behavior: 'smooth',
         })
-      }
+      },
     }
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>

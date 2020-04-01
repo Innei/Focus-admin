@@ -17,8 +17,8 @@ export default {
   props: {
     lStyle: String,
     rStyle: String,
-    mStyle: String
-  }
+    mStyle: String,
+  },
 }
 </script>
 <style lang="scss" scoped>

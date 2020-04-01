@@ -28,8 +28,8 @@ export default {
   props: {
     loading: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   inject: ['toTop'],
   watch: {
@@ -37,8 +37,8 @@ export default {
       if (val) {
         this.toTop?.()
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

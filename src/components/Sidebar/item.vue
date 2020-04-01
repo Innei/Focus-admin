@@ -48,15 +48,15 @@ export default {
           (val.icon instanceof Array || typeof val.icon === 'string') &&
           val.icon.length !== 0
         )
-      }
+      },
     },
-    index: Number
+    index: Number,
   },
   data() {
     return {
       height: 0,
       activeItems: 0,
-      extend: false
+      extend: false,
     }
   },
   watch: {
@@ -64,7 +64,7 @@ export default {
       if (!val) {
         this.extend = false
       }
-    }
+    },
   },
   computed: {
     hasChild() {
@@ -72,7 +72,7 @@ export default {
         JSON.stringify(this.item.subItems) === '{}' ||
         this.item.subItems === undefined
       )
-    }
+    },
   },
   methods: {
     handleClick() {
@@ -122,7 +122,7 @@ export default {
     },
     isArray(arr) {
       return Array.isArray(arr)
-    }
+    },
   },
   mounted() {
     try {
@@ -130,12 +130,12 @@ export default {
         [...this.$refs.insider.querySelectorAll('.item')].length * 5 + 'rem'
     } catch (e) {}
 
-    this.$refs.svg?.addEventListener('load', function() {
+    this.$refs.svg?.addEventListener('load', function () {
       var doc = this.getSVGDocument()
       const svg = doc.querySelector('svg')
       svg.setAttribute('fill', '#fff')
     })
-  }
+  },
 }
 </script>
 

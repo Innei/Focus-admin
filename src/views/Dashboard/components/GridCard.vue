@@ -63,25 +63,25 @@ import Card from '@/components/SvgCard'
 
 export default {
   components: {
-    Card
+    Card,
   },
   computed: {
     ...mapGetters(['viewport', 'device', 'count']),
-    ...mapGetters({ user: 'profile' })
+    ...mapGetters({ user: 'profile' }),
   },
   data() {
     return {
-      hitokoto: {}
+      hitokoto: {},
     }
   },
   created() {
     // get hitokoto
-    import('axios').then(axios => {
-      axios.get('https://v1.hitokoto.cn/').then(res => {
+    import('axios').then((axios) => {
+      axios.get('https://v1.hitokoto.cn/').then((res) => {
         this.hitokoto = res.data
       })
     })
-  }
+  },
 }
 </script>
 

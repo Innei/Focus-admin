@@ -4,27 +4,27 @@ export function login(data) {
   return request({
     url: '/master/login',
     method: 'post',
-    data
+    data,
   })
 }
 
 export function getInfo(id) {
   return request({
     url: '/master/' + id,
-    method: 'get'
+    method: 'get',
   })
 }
 
 export function logout() {
   return request({
     url: '/master/logout',
-    method: 'get'
+    method: 'get',
   })
 }
 
 export function checkLogged() {
   return request({
     url: '/master/check_logged',
-    method: 'get'
+    method: 'get',
   })
 }

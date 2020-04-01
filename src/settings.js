@@ -1,5 +1,5 @@
 export default {
-  title: 'Focus'
+  title: 'Focus',
   // menus: [
   //   {
   //     title: 'Dashboard',

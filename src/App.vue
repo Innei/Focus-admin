@@ -17,7 +17,7 @@ export default {
     window.addEventListener('resize', debounce(this.updateViewport, 13))
   },
   methods: {
-    ...mapActions('app', ['updateViewport'])
-  }
+    ...mapActions('app', ['updateViewport']),
+  },
 }
 </script>

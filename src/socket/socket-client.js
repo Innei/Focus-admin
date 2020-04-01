@@ -7,7 +7,7 @@ const Message = {
   success: notification.success,
   warn: notification.warn,
   warning: notification.warning,
-  loading: notification.loading
+  loading: notification.loading,
 }
 class SocketClient {
   static retryDelay(times) {
@@ -169,7 +169,7 @@ class SocketClient {
       const { type, message } = JSON.parse(data)
       Message[type]({
         message: 'Notice',
-        description: message
+        description: message,
       })
     } catch (err) {
       console.log(err)
@@ -200,31 +200,31 @@ Object.defineProperty(SocketClient, 'CONNECTING', {
   value: 0,
   writable: false,
   enumerable: false,
-  configurable: false
+  configurable: false,
 })
 Object.defineProperty(SocketClient, 'OPEN', {
   value: 1,
   writable: false,
   enumerable: false,
-  configurable: false
+  configurable: false,
 })
 Object.defineProperty(SocketClient, 'CLOSING', {
   value: 2,
   writable: false,
   enumerable: false,
-  configurable: false
+  configurable: false,
 })
 Object.defineProperty(SocketClient, 'CLOSED', {
   value: 3,
   writable: false,
   enumerable: false,
-  configurable: false
+  configurable: false,
 })
 Object.defineProperty(SocketClient, 'RECONNECTING', {
   value: 4,
   writable: false,
   enumerable: false,
-  configurable: false
+  configurable: false,
 })
 
 export default SocketClient

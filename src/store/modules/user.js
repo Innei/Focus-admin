@@ -13,14 +13,14 @@ const getDefaultState = () => {
     lastLoginIp: '',
     lastLoginTime: '',
     count: {},
-    raw: null
+    raw: null,
   }
 }
 
 const state = getDefaultState()
 
 const mutations = {
-  RESET_STATE: state => {
+  RESET_STATE: (state) => {
     Object.assign(state, getDefaultState())
   },
   SET_LOGGED: (state, { token, id, lastLoginIp, lastLoginTime }) => {
@@ -41,7 +41,7 @@ const mutations = {
   },
   SET_RAW: (state, raw) => {
     state.raw = raw
-  }
+  },
 }
 
 const actions = {
@@ -50,7 +50,7 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password })
-        .then(data => {
+        .then((data) => {
           const { token, id, lastLoginIp = '', lastLoginTime = '' } = data
           commit(
             'SET_LOGGED',
@@ -61,7 +61,7 @@ const actions = {
 
           resolve()
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error)
         })
     })
@@ -71,7 +71,7 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.id)
-        .then(response => {
+        .then((response) => {
           const { data } = response
 
           const { name, avatar, username, count } = data
@@ -82,7 +82,7 @@ const actions = {
           commit('SET_RAW', data)
           resolve(data)
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error)
         })
     })
@@ -97,7 +97,7 @@ const actions = {
           commit('RESET_STATE')
           resolve()
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error)
         })
     })
@@ -105,17 +105,17 @@ const actions = {
 
   // remove token
   resetToken({ commit }) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       removeToken() // must remove  token  first
       commit('RESET_STATE')
       resolve()
     })
-  }
+  },
 }
 
 export default {
   namespaced: true,
   state,
   mutations,
-  actions
+  actions,
 }

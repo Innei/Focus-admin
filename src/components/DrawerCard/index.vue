@@ -49,7 +49,7 @@
             </div>
           </div>
 
-          <div class="content" style="position: relative">
+          <div class="content" style="position: relative;">
             <pre v-if="type !== 'picture'">
              {{ content.body }}
             </pre>
@@ -71,14 +71,14 @@ export default {
   props: {
     time: {
       type: Object,
-      required: true
+      required: true,
     },
     type: {
       type: String,
-      required: true
+      required: true,
     },
     title: String,
-    content: {}
+    content: {},
   },
   data() {
     return {
@@ -86,8 +86,8 @@ export default {
       overflowHeight: null,
       Time: {
         created: null,
-        modified: null
-      }
+        modified: null,
+      },
     }
   },
   created() {
@@ -113,7 +113,7 @@ export default {
         'transform: translateY(-' + this.overflowHeight + 'px)'
       )
       this.$refs.wrap.removeAttribute('style')
-    }
+    },
   },
   mounted() {
     this.updateWrapHeight()
@@ -138,11 +138,11 @@ export default {
             ' - 98px)'
         )
       }
-    }
+    },
   },
   destroyed() {
     this.$off()
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>

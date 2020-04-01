@@ -43,7 +43,7 @@ export default {
     PageLayout,
     Table,
     APopconfirm,
-    Button
+    Button,
   },
   data() {
     return {
@@ -54,8 +54,8 @@ export default {
         showID: true,
         style: {
           width: '100%',
-          height: 'calc(100vh - 13rem)'
-        }
+          height: 'calc(100vh - 13rem)',
+        },
       },
       cols: [
         {
@@ -68,33 +68,33 @@ export default {
               to: {
                 ref: true,
                 prop: '_id',
-                prefix: '/posts/edit?id='
-              }
+                prefix: '/posts/edit?id=',
+              },
             },
-            class: ['title']
-          }
+            class: ['title'],
+          },
         },
         {
           name: '分类',
           prop: 'categoryId.name',
-          width: 100
+          width: 100,
         },
         {
           name: '创建时间',
           prop: 'created',
-          width: 150
+          width: 150,
         },
         {
           name: '修改于',
           prop: 'modified',
-          width: 150
+          width: 150,
         },
         {
           name: '操作',
-          actions: true
-        }
+          actions: true,
+        },
       ],
-      loading: true
+      loading: true,
     }
   },
   async created() {
@@ -105,8 +105,8 @@ export default {
       this.$router.push({
         name: 'edit-posts',
         query: {
-          id: row._id
-        }
+          id: row._id,
+        },
       })
     },
     async handleTo(page) {
@@ -119,11 +119,11 @@ export default {
         'Post'
       )({
         page: ops.page || 1,
-        size: ops.size || 10
+        size: ops.size || 10,
       })
       ;(this.page = page), (this.raw = data)
 
-      this.data = data.map(item =>
+      this.data = data.map((item) =>
         Object.fromEntries(
           Object.entries(item).map(([key, val]) => {
             switch (key) {
@@ -150,8 +150,8 @@ export default {
       } else {
         this.$message.error(msg)
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

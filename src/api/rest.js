@@ -2,7 +2,7 @@ import inflection from 'inflection'
 import $axios from '@/utils/request'
 const apis = ['Post', 'Note', 'Moment', 'Category', 'Comment']
 
-const checkRest = rest => {
+const checkRest = (rest) => {
   if (!apis.includes(rest)) {
     throw new Error("Api isn't exist.")
   }
@@ -15,7 +15,7 @@ const reflectors = [
   'inspect',
   'constructor',
   Symbol.toPrimitive,
-  Symbol.for('util.inspect.custom')
+  Symbol.for('util.inspect.custom'),
 ]
 export const pre = () => {
   const route = ['']
@@ -23,19 +23,19 @@ export const pre = () => {
     get(_, name) {
       if (reflectors.includes(name)) return () => route.join('/')
       if (methods.includes(name)) {
-        return options =>
+        return (options) =>
           $axios[name](route.join('/'), {
             route: route.join('/'),
-            ...options
+            ...options,
           })
       }
       route.push(name)
       return new Proxy(noop, handler)
     },
     apply(_, __, args) {
-      route.push(...args.filter(x => x !== null))
+      route.push(...args.filter((x) => x !== null))
       return new Proxy(noop, handler)
-    }
+    },
   }
   return new Proxy(noop, handler)
 }
@@ -51,8 +51,8 @@ export default (api, rest) => {
         url: `/${pluralize}`,
         params: {
           page,
-          size
-        }
+          size,
+        },
       })
       return data
     },
@@ -89,7 +89,7 @@ export default (api, rest) => {
     },
     get delete() {
       return this.deleteOne
-    }
+    },
   }
 
   return apis[api]

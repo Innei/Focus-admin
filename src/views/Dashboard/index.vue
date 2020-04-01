@@ -14,10 +14,10 @@ import GridCard from './components/GridCard'
 export default {
   components: {
     PageLayout,
-    GridCard
+    GridCard,
   },
   computed: {
-    ...mapGetters(['viewport'])
-  }
+    ...mapGetters(['viewport']),
+  },
 }
 </script>

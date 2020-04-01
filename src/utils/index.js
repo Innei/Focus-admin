@@ -7,7 +7,7 @@ export { default as time } from './time'
 export const isMobile = () => /mobile/i.test(window.navigator.userAgent)
 export const debounce = (fn, wait) => {
   let timeout = null
-  return function() {
+  return function () {
     if (timeout !== null) {
       clearTimeout(timeout)
     }
@@ -26,5 +26,5 @@ export const throttle = (fn, gapTime) => {
   }
 }
 
-export const avatarFromMail = mail =>
+export const avatarFromMail = (mail) =>
   `https://api.paugram.com/gravatar/?email=${mail}&replace=retro`

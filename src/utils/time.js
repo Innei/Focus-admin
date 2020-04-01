@@ -9,6 +9,6 @@ dayjs.extend(LocalizedFormat)
 dayjs.locale('zh-cn')
 export const parseDate = (time, format) => dayjs(time).format(format)
 
-export const relativeTimeFromNow = time => dayjs(new Date(time)).fromNow()
+export const relativeTimeFromNow = (time) => dayjs(new Date(time)).fromNow()
 
 export default { parseDate, relativeTimeFromNow }

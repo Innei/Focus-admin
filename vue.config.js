@@ -28,11 +28,11 @@ module.exports = {
     open: true,
     overlay: {
       warnings: false,
-      errors: true
-    }
+      errors: true,
+    },
   },
 
-  configureWebpack: config => {
+  configureWebpack: (config) => {
     config.plugins.push(
       new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/)
     )
@@ -42,11 +42,11 @@ module.exports = {
     'style-resources-loader': {
       preProcessor: 'scss',
       patterns: [
-        require('path').resolve(__dirname, 'src/assets/scss/_var.scss')
-      ]
+        require('path').resolve(__dirname, 'src/assets/scss/_var.scss'),
+      ],
     },
     webpackBundleAnalyzer: {
-      openAnalyzer: process.env.NODE_ENV === 'production' ? true : false
-    }
-  }
+      openAnalyzer: process.env.NODE_ENV === 'production' ? true : false,
+    },
+  },
 }

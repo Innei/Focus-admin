@@ -63,14 +63,14 @@ export default {
     APagination: Pagination,
     ACheckbox: Checkbox,
     Snip,
-    SButton
+    SButton,
   },
   data() {
     return {
       listData: [],
       page: {},
       loading: true,
-      select: new Set()
+      select: new Set(),
     }
   },
   async created() {
@@ -100,8 +100,9 @@ export default {
       return time.parseDate(date, 'LLLL')
     },
     getPostUrl(post) {
-      return `${process.env.VUE_APP_WEB_URL}/posts/${post.categoryId?.slug ||
-        null}/${post.slug}`
+      return `${process.env.VUE_APP_WEB_URL}/posts/${
+        post.categoryId?.slug || null
+      }/${post.slug}`
     },
     async handleTo(page) {
       await this.fetchData(page)
@@ -116,8 +117,8 @@ export default {
         this.select.add(_id)
       })
       this.select = new Set(this.select)
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>

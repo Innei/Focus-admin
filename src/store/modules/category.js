@@ -1,7 +1,7 @@
 import Rest from '@/api/rest'
 
 const state = () => ({
-  category: []
+  category: [],
 })
 
 const actions = {
@@ -11,20 +11,20 @@ const actions = {
       return state.category
     }
     return await fetchCategory({ commit })
-  }
+  },
 }
 
 const mutations = {
   LOAD_CATEGORY(state, category) {
     state.category = category
-  }
+  },
 }
 
 export default {
   namespaced: true,
   actions,
   state,
-  mutations
+  mutations,
 }
 
 async function fetchCategory({ commit }) {
